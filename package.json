@@ -1,0 +1,17 @@
+{
+  "name": "adoptfurniture",
+  "version": "1.0.0",
+  "description": "An innovative web application dedicated to promoting sustainable living through the adoption of pre-loved furniture and facilities.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "mongoose": "^8.1.1"
+  }
+}
