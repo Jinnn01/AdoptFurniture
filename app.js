@@ -15,6 +15,7 @@ mongoose
 
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -22,15 +23,34 @@ app.get('/', (request, response) => {
   response.render('home');
 });
 
-app.get('/addFurniture', async (request, response) => {
+// set up for add a new furniture
+// 1. display form
+app.get('/addFurniture', (request, response) => {
+  response.render('furnitures/new');
+});
+
+// 2. store in db
+app.post('/furnitures', async (request, response) => {
+  const { fName, fLocation } = request.body;
   const newFurniture = new Furniture({
-    name: 'Wooden Sofa',
-    price: 'free',
-    description: 'Never used wooden sofa',
-    location: 'Wollongong',
+    name: fName,
+    location: fLocation,
   });
-  const result = await newFurniture.save();
-  console.log(result);
+  await newFurniture.save();
+  response.redirect('furnitures');
+});
+
+// get all furnitures
+app.get('/furnitures', async (request, response) => {
+  const allFurnitures = await Furniture.find({});
+  response.render('furnitures/index', { allFurnitures });
+});
+
+// get detail by id
+app.get('/furnitures/:id', async (request, response) => {
+  const id = request.params.id;
+  const furniture = await Furniture.findById(id);
+  response.render('furnitures/detail', { furniture });
 });
 
 app.listen(5001, () => {
