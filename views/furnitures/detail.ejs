@@ -12,5 +12,9 @@
     <ul>
       <li><%= furniture.location%></li>
     </ul>
+    <a href="/furnitures/<%=furniture._id%>/edit">Edit this furniture</a>
+    <form action="/furnitures/<%=furniture._id%>?_method=DELETE" method="POST">
+      <button>Delete the item</button>
+    </form>
   </body>
 </html>

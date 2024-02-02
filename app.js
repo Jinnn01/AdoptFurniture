@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Furniture = require('./models/furniture');
 const path = require('path');
+const methodOverride = require('method-override');
 
 mongoose
   .connect('mongodb://127.0.0.1:27017/adoptfurniture')
@@ -14,7 +15,7 @@ mongoose
   });
 
 const app = express();
-
+app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -29,7 +30,7 @@ app.get('/addFurniture', (request, response) => {
   response.render('furnitures/new');
 });
 
-// 2. store in db
+// 2. store item in db
 app.post('/furnitures', async (request, response) => {
   const { fName, fLocation } = request.body;
   const newFurniture = new Furniture({
@@ -51,6 +52,31 @@ app.get('/furnitures/:id', async (request, response) => {
   const id = request.params.id;
   const furniture = await Furniture.findById(id);
   response.render('furnitures/detail', { furniture });
+});
+
+// display a form for edit info
+app.get('/furnitures/:id/edit', async (request, response) => {
+  const id = request.params.id;
+  const furniture = await Furniture.findById(id);
+  response.render('furnitures/edit', { furniture });
+});
+
+// edit item by id
+app.patch('/furnitures/:id', async (request, response) => {
+  const id = request.params.id;
+  const { fName, fLocation } = request.body;
+  const editedFurniture = await Furniture.findByIdAndUpdate(id, {
+    name: fName,
+    location: fLocation,
+  });
+  response.redirect(`/furnitures/${id}`);
+});
+
+// delete by id
+app.delete('/furnitures/:id', async (request, response) => {
+  const id = request.params.id;
+  const deletedFurniture = await Furniture.findByIdAndDelete(id);
+  response.redirect('/furnitures');
 });
 
 app.listen(5001, () => {
