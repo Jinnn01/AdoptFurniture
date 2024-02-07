@@ -1,24 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit furniture</title>
-  </head>
-
-  <body>
-    <h1>Edit <%=furniture._id%> Furniture</h1>
-    <form action="/furnitures/<%=furniture._id%>?_method=PATCH" method="post">
-      <label for="fName">Furniture Name</label>
-      <input id="fName" type="text" name="fName" value="<%=furniture.name%>" />
-      <label for="fLocation">Furniture Location</label>
-      <input
-        id="fLocation"
-        type="text"
-        name="fLocation"
-        value="<%=furniture.location%>"
-      />
-      <button>Edit furniture</button>
-    </form>
-  </body>
-</html>
+<% layout('/layouts/boilerplate') %>
+<h1>Edit <%=furniture._id%> Furniture</h1>
+<form action="/furnitures/<%=furniture._id%>?_method=PATCH" method="post">
+  <label for="fName">Furniture Name</label>
+  <input id="fName" type="text" name="fName" value="<%=furniture.name%>" />
+  <label for="fLocation">Furniture Location</label>
+  <input
+    id="fLocation"
+    type="text"
+    name="fLocation"
+    value="<%=furniture.location%>"
+  />
+  <button>Edit furniture</button>
+</form>

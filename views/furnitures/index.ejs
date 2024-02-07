@@ -1,17 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>All furnitures</title>
-  </head>
-
-  <body>
-    <h1>All Furnitures</h1>
-    <ul>
-      <%for(let furniture of allFurnitures){%>
-      <li><a href="/furnitures/<%=furniture._id%>"><%=furniture.name%></a></li>
-      <%}%>
-    </ul>
-  </body>
-</html>
+<% layout('/layouts/boilerplate') %>
+<h1>All Furnitures</h1>
+<ul>
+  <%for(let furniture of allFurnitures){%>
+  <li><a href="/furnitures/<%=furniture._id%>"><%=furniture.name%></a></li>
+  <%}%>
+</ul>

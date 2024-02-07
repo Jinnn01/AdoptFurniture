@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Furniture = require('./models/furniture');
 const path = require('path');
 const methodOverride = require('method-override');
+const ejsMate = require('ejs-mate');
 
 mongoose
   .connect('mongodb://127.0.0.1:27017/adoptfurniture')
@@ -15,10 +16,12 @@ mongoose
   });
 
 const app = express();
-app.use(methodOverride('_method'));
-app.use(express.urlencoded({ extended: true }));
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+app.use(methodOverride('_method'));
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (request, response) => {
   response.render('home');
