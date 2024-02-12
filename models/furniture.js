@@ -6,9 +6,10 @@ const furnitureSchema = new Schema({
     type: String,
     required: true,
   },
-  price: String,
+  price: Number,
   description: String,
   location: String,
+  img: String,
 });
 
 const Furniture = mongoose.model('Furniture', furnitureSchema);

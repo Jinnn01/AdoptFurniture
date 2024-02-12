@@ -2,7 +2,10 @@
 <h1>No.<%=furniture._id%> Furniture</h1>
 <h2><%= furniture.name%></h2>
 <ul>
+  <img src="<%=furniture.img %>" alt="" />
+  <li><%= furniture.description %></li>
   <li><%= furniture.location%></li>
+  <li><%= furniture.price%></li>
 </ul>
 <a href="/furnitures/<%=furniture._id%>/edit">Edit this furniture</a>
 <form action="/furnitures/<%=furniture._id%>?_method=DELETE" method="POST">

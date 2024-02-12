@@ -1,7 +1,21 @@
 <% layout('/layouts/boilerplate') %>
 <h1>All Furnitures</h1>
-<ul>
-  <%for(let furniture of allFurnitures){%>
-  <li><a href="/furnitures/<%=furniture._id%>"><%=furniture.name%></a></li>
-  <%}%>
-</ul>
+
+<%for(let furniture of allFurnitures){%>
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-3">
+      <img src="<%=furniture.img %>" class="img-fluid" alt="furniture image" />
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%=furniture.name%></h5>
+        <p class="card-text">$<%=furniture.price%></p>
+        <p class="card-text">Location: <%=furniture.location%></p>
+        <a href="/furnitures/<%=furniture._id%>" class="card-link">Details</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%}%>

@@ -21,9 +21,14 @@ const seedDB = async () => {
   // add random data to the database
   for (let i = 0; i < 36; i++) {
     const random30 = Math.floor(Math.random() * 20);
+    const price = Math.floor(Math.random() * 20) + 10;
     const randomFurniture = new Furniture({
       name: `${name(textureDescriptors)} ${name(furnitureNames)}`,
       location: `${suburbs[random30].suburb}, ${suburbs[random30].city}`,
+      img: `https://source.unsplash.com/random/300×300/?furniture,${i}`,
+      description:
+        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. A aperiam, cum ducimus consequuntur rerum ea beatae ullam nesciunt nobis tenetur provident dolor facilis ipsam? Quis officia repudiandae minima quod necessitatibus!',
+      price,
     });
     await randomFurniture.save();
   }
