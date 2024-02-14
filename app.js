@@ -35,10 +35,21 @@ app.get('/addFurniture', (request, response) => {
 
 // 2. store item in db
 app.post('/furnitures', async (request, response) => {
-  const { fName, fLocation } = request.body;
+  const { fName, fLocation, fPrice, fDescription, fImage } = request.body;
+  // console.log(
+  //   'Request recieved!',
+  //   fName,
+  //   fLocation,
+  //   fPrice,
+  //   fDescription,
+  //   fImage
+  // );
   const newFurniture = new Furniture({
     name: fName,
     location: fLocation,
+    price: fPrice,
+    description: fDescription,
+    img: fImage,
   });
   await newFurniture.save();
   response.redirect('furnitures');

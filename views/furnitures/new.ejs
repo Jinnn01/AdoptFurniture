@@ -1,9 +1,56 @@
 <% layout('/layouts/boilerplate') %>
-<h1>Add Furniture</h1>
-<form action="/furnitures" method="post">
-  <label for="fName">Furniture Name</label>
-  <input id="fName" type="text" name="fName" />
-  <label for="fLocation">Furniture Location</label>
-  <input id="fLocation" type="text" name="fLocation" />
-  <button>Add furniture</button>
-</form>
+<div class="row">
+  <h1 class="text-center">Add Furniture</h1>
+  <div class="col-6 offset-3">
+    <form action="/furnitures" method="post">
+      <div class="mb-3">
+        <label for="fName" class="form-lablel">Furniture Name</label>
+        <input id="fName" type="text" name="fName" class="form-control" />
+      </div>
+      <div class="mb-3">
+        <label for="fLocation" class="form-lablel">Furniture Location</label>
+        <input
+          id="fLocation"
+          type="text"
+          name="fLocation"
+          class="form-control"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="fPrice" class="form-lablel">Furniture Price</label>
+        <div class="input-group">
+          <span class="input-group-text">$</span>
+          <input
+            id="fPrice"
+            type="number"
+            name="fPrice"
+            min="0"
+            class="form-control"
+            value="0"
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="fDescription" class="form-lablel"
+          >Furniture Description</label
+        >
+        <textarea
+          id="fDescription"
+          type="text"
+          name="fDescription"
+          class="form-control"
+        ></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="fImage" class="form-lablel">Furniture Photo</label>
+        <input id="fImage" type="text" name="fImage" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <button class="btn btn-secondary">Add furniture</button>
+      </div>
+    </form>
+  </div>
+</div>
