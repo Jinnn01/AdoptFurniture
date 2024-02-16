@@ -1,14 +1,71 @@
 <% layout('/layouts/boilerplate') %>
-<h1>Edit <%=furniture._id%> Furniture</h1>
-<form action="/furnitures/<%=furniture._id%>?_method=PATCH" method="post">
-  <label for="fName">Furniture Name</label>
-  <input id="fName" type="text" name="fName" value="<%=furniture.name%>" />
-  <label for="fLocation">Furniture Location</label>
-  <input
-    id="fLocation"
-    type="text"
-    name="fLocation"
-    value="<%=furniture.location%>"
-  />
-  <button>Edit furniture</button>
-</form>
+
+<div class="row">
+  <div class="text-center">
+    <h1>Edit Furniture</h1>
+    <small>No.<%=furniture._id%></small>
+  </div>
+
+  <div class="col-6 offset-3">
+    <form action="/furnitures/<%=furniture._id%>?_method=PATCH" method="post">
+      <label for="fName" class="form-label">Furniture Name</label>
+      <input
+        class="form-control mb-3"
+        id="fName"
+        type="text"
+        name="fName"
+        value="<%=furniture.name%>"
+      />
+      <label for="fLocation" class="form-label">Furniture Location</label>
+      <input
+        class="form-control mb-3"
+        id="fLocation"
+        type="text"
+        name="fLocation"
+        value="<%=furniture.location%>"
+      />
+
+      <div class="mb-3">
+        <label for="fPrice" class="form-lablel">Furniture Price</label>
+        <div class="input-group">
+          <span class="input-group-text">$</span>
+          <input
+            id="fPrice"
+            type="number"
+            name="fPrice"
+            min="0"
+            class="form-control"
+            value="<%=furniture.price%>"
+          />
+        </div>
+      </div>
+
+      <label for="fDescription" class="form-lablel"
+        >Furniture Description</label
+      >
+      <textarea
+        id="fDescription"
+        type="text"
+        name="fDescription"
+        class="form-control mb-3"
+      >
+        <%=furniture.description %></textarea
+      >
+
+      <label for="fImage" class="form-lablel">Furniture Photo</label>
+      <input
+        id="fImage"
+        type="text"
+        name="fImage"
+        class="form-control mb-3"
+        value="<%=furniture.img %>"
+      />
+
+      <div class="mb-3">
+        <button class="btn btn-secondary" style="background-color: #747264">
+          Edit furniture
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
