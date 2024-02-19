@@ -2,10 +2,23 @@
 <div class="row">
   <h1 class="text-center">Add Furniture</h1>
   <div class="col-6 offset-3">
-    <form action="/furnitures" method="post">
+    <form
+      action="/furnitures"
+      method="post"
+      class="needs-validation"
+      novalidate
+    >
       <div class="mb-3">
         <label for="fName" class="form-lablel">Furniture Name</label>
-        <input id="fName" type="text" name="fName" class="form-control" />
+        <input
+          id="fName"
+          type="text"
+          name="fName"
+          class="form-control"
+          placeholder="Please enter furniture name"
+          required
+        />
+        <div class="invalid-feedback">*Furniture name is required</div>
       </div>
       <div class="mb-3">
         <label for="fLocation" class="form-lablel">Furniture Location</label>
@@ -14,7 +27,10 @@
           type="text"
           name="fLocation"
           class="form-control"
+          placeholder="Please enter furniture location"
+          required
         />
+        <div class="invalid-feedback">*Furniture location is required</div>
       </div>
       <div class="mb-3">
         <label for="fPrice" class="form-lablel">Furniture Price</label>
@@ -22,12 +38,14 @@
           <span class="input-group-text">$</span>
           <input
             id="fPrice"
-            type="number"
+            type="float"
             name="fPrice"
-            min="0"
+            min="0.00"
             class="form-control"
             value="0"
+            required
           />
+          <div class="invalid-feedback">*Please enter a valid price</div>
         </div>
       </div>
 
@@ -40,12 +58,19 @@
           type="text"
           name="fDescription"
           class="form-control"
+          placeholder="Describle this furniture"
         ></textarea>
       </div>
 
       <div class="mb-3">
         <label for="fImage" class="form-lablel">Furniture Photo</label>
-        <input id="fImage" type="text" name="fImage" class="form-control" />
+        <input
+          id="fImage"
+          type="text"
+          name="fImage"
+          class="form-control"
+          placeholder="Image URL"
+        />
       </div>
 
       <div class="mb-3">

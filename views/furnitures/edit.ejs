@@ -7,23 +7,37 @@
   </div>
 
   <div class="col-6 offset-3">
-    <form action="/furnitures/<%=furniture._id%>?_method=PATCH" method="post">
-      <label for="fName" class="form-label">Furniture Name</label>
-      <input
-        class="form-control mb-3"
-        id="fName"
-        type="text"
-        name="fName"
-        value="<%=furniture.name%>"
-      />
-      <label for="fLocation" class="form-label">Furniture Location</label>
-      <input
-        class="form-control mb-3"
-        id="fLocation"
-        type="text"
-        name="fLocation"
-        value="<%=furniture.location%>"
-      />
+    <form
+      action="/furnitures/<%=furniture._id%>?_method=PATCH"
+      method="post"
+      class="needs-validation"
+      novalidate
+    >
+      <div class="mb-3">
+        <label for="fName" class="form-label">Furniture Name</label>
+        <input
+          class="form-control"
+          id="fName"
+          type="text"
+          name="fName"
+          value="<%=furniture.name%>"
+          required
+        />
+        <div class="invalid-feedback">Furniture name is required</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="fLocation" class="form-label">Furniture Location</label>
+        <input
+          class="form-control"
+          id="fLocation"
+          type="text"
+          name="fLocation"
+          value="<%=furniture.location%>"
+          required
+        />
+        <div class="invalid-feedback">Furniture location is required</div>
+      </div>
 
       <div class="mb-3">
         <label for="fPrice" class="form-lablel">Furniture Price</label>
@@ -31,7 +45,7 @@
           <span class="input-group-text">$</span>
           <input
             id="fPrice"
-            type="number"
+            type="float"
             name="fPrice"
             min="0"
             class="form-control"
