@@ -1,0 +1,32 @@
+<% layout('/layouts/boilerplate') %>
+<div class="row">
+  <h1 class="text-center">Comment</h1>
+  <div class="col-6 offset-3">
+    <form
+      action="/furnitures/<%=id%>/comment"
+      method="post"
+      class="needs-validation"
+      novalidate
+    >
+      <div class="mb-3">
+        <label for="comment" class="form-lablel">Comment Content</label>
+        <input
+          id="comment"
+          type="text"
+          name="comment"
+          class="form-control"
+          placeholder="Please enter comment"
+          required
+        />
+        <div class="invalid-feedback">*Comment Content is required</div>
+      </div>
+
+      <div class="mb-3">
+        <button class="btn btn-secondary" style="background-color: #747264">
+          Add Comment
+        </button>
+      </div>
+    </form>
+    <a href="/furnitures">To view all furnitures</a>
+  </div>
+</div>

@@ -10,6 +10,12 @@ const furnitureSchema = new Schema({
   description: String,
   location: String,
   img: String,
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
 });
 
 const Furniture = mongoose.model('Furniture', furnitureSchema);

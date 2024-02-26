@@ -1,13 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Furniture = require('./models/furniture');
+const Comment = require('./models/comment');
 const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const ExpressError = require('./services/ErrorHandling');
-const { furnitureSchema } = require('./middleware/validate');
+const { furnitureSchema, commentSchema } = require('./middleware/validate');
 const WrapAsync = require('./services/WrapAsync');
 const Joi = require('joi');
+const { request } = require('http');
 
 mongoose
   .connect('mongodb://127.0.0.1:27017/adoptfurniture')
@@ -80,7 +82,7 @@ app.get(
   '/furnitures/:id',
   WrapAsync(async (request, response, next) => {
     const id = request.params.id;
-    const furniture = await Furniture.findById(id);
+    const furniture = await Furniture.findById(id).populate('comments');
     if (!furniture) throw new ExpressError('Furniture not found', 400);
     response.render('furnitures/detail', { furniture });
   })
@@ -124,6 +126,28 @@ app.delete(
   })
 );
 
+// display comment form
+app.get('/furnitures/:id/comment/new', (request, response) => {
+  const id = request.params.id;
+  response.render('furnitures/comment', { id });
+});
+
+// add comment
+app.post(
+  '/furnitures/:id/comment',
+  WrapAsync(async (request, response) => {
+    const id = request.params.id;
+    const { comment } = request.body;
+    const furniture = await Furniture.findById(id);
+    const newComment = new Comment({
+      text: comment,
+    });
+    await furniture.comments.push(newComment);
+    furniture.save();
+    newComment.save();
+    response.redirect(`/furnitures/${id}`);
+  })
+);
 // nothing is matched
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page not found', 404));

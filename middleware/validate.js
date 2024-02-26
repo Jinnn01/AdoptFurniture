@@ -7,3 +7,10 @@ module.exports.furnitureSchema = Joi.object({
   fDescription: Joi.string().allow(''),
   fImage: Joi.string().allow(''),
 });
+
+module.exports.commentSchema = Joi.object({
+  text: Joi.string().required(),
+  likes: Joi.number().min(0),
+  time: Joi.string(),
+  user: Joi.string(),
+});
