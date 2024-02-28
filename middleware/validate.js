@@ -9,8 +9,7 @@ module.exports.furnitureSchema = Joi.object({
 });
 
 module.exports.commentSchema = Joi.object({
-  text: Joi.string().required(),
+  comment: Joi.string().required(),
   likes: Joi.number().min(0),
-  time: Joi.string(),
   user: Joi.string(),
 });

@@ -1,7 +1,7 @@
 <% layout('/layouts/boilerplate') %>
 
-<div class="container d-flex justify-content-center">
-  <div class="card" style="width: 80vw">
+<div class="container d-flex justify-content-between">
+  <div class="card col mx-3" style="width: 80vw">
     <img src="<%=furniture.img %>" alt="" class="card-img-top" />
     <div class="card-body">
       <h2 class="card-title"><%= furniture.name%></h2>
@@ -72,38 +72,72 @@
     </div>
     <div class="card-footer text-body-secondary">
       <!-- <a href="/furnitures">View all furnitures</a> -->
-      <a href="/furnitures/<%=furniture.id%>/comment/new">Leave a comment</a>
+      <a href="/furnitures">To view all furnitures</a>
     </div>
+  </div>
+  <div class="col mx-3">
+    <h1 class="text-center">Make a Comment</h1>
+  <div>
+    <form
+      action="/furnitures/<%=furniture.id%>/comment"
+      method="post"
+      class="needs-validation"
+      novalidate
+    >
+      <div class="mb-3">
+        <label for="comment" class="form-lablel">Comment Content</label>
+        <textarea
+          id="comment"
+          type="text"
+          name="comment"
+          class="form-control"
+          required
+        />
+      
+      </textarea>
+        <div class="invalid-feedback">*Comment Content is required</div>
+      </div>
+
+      <div class="mb-3">
+        <button class="btn btn-secondary" style="background-color: #747264">
+          Add Comment
+        </button>
+      </div>
+    </form>
+    
+  </div>
+    <ol class="list-group mb-3" style="width: 100%; margin-top: 20px">
+      <%if(furniture.comments.length){%> <%for(let comment of
+      furniture.comments){%>
+      <li
+        class="list-group-item d-flex justify-content-between align-items-start"
+      >
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">User name</div>
+          <%= comment.comment%> <br/>
+          <small style="color: grey;"><i><%=comment.createdAt%></i></small>
+          <span
+            class="position-absolute top-0 start-100 translate-middle badge text-bg-primary rounded-pill"
+            >likes</span
+          >
+          <form action="/furnitures/<%=furniture.id%>/comment/<%=" method="post"
+        </div>
+        <%}%> <%} else{%>
+      </li>
+  
+      <li
+        class="list-group-item d-flex justify-content-between align-items-start"
+      >
+        <div class="ms-2 me-auto">
+  
+          <div class="fw-bold">No Comments</div>
+          <p>Please make the first comment</p>
+        </div>
+      </li>
+        <%}%>
+      </li>
+    </ol>
   </div>
 </div>
 
-<div class="container">
-  <ol class="list-group" style="width: 100%; margin-top: 20px">
-    <%if(furniture.comments.length){%> <%for(let comment of
-    furniture.comments){%>
-    <li
-      class="list-group-item d-flex justify-content-between align-items-start"
-    >
-      <div class="ms-2 me-auto">
-        <div class="fw-bold">User name</div>
-        <%= comment.text%>
-        <span
-          class="position-absolute top-0 start-100 translate-middle badge text-bg-primary rounded-pill"
-          >likes</span
-        >
-      </div>
-      <%}%> <%} else{%>
-    </li>
 
-    <li
-      class="list-group-item d-flex justify-content-between align-items-start"
-    >
-      <div class="ms-2 me-auto">
-        <div class="fw-bold">No Comments</div>
-        <p>Please make the first comment</p>
-      </div>
-    </li>
-      <%}%>
-    </li>
-  </ol>
-</div>

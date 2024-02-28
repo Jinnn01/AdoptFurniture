@@ -126,30 +126,48 @@ app.delete(
   })
 );
 
-// display comment form
-app.get('/furnitures/:id/comment/new', (request, response) => {
-  const id = request.params.id;
-  response.render('furnitures/comment', { id });
-});
+const validateComment = (request, response, next) => {
+  const validatedComment = commentSchema.validate(request.body);
+  if (validatedComment.error) {
+    throw new ExpressError(validatedComment.error, 400);
+  } else {
+    next();
+  }
+};
+
+// // display comment form
+// app.get(
+//   '/furnitures/:id/comment/new',
+//   WrapAsync(async (request, response) => {
+//     response.render('furnitures/detail');
+//   })
+// );
 
 // add comment
 app.post(
   '/furnitures/:id/comment',
+  validateComment,
   WrapAsync(async (request, response) => {
     const id = request.params.id;
     const { comment } = request.body;
     const furniture = await Furniture.findById(id);
     const newComment = new Comment({
-      text: comment,
+      comment: comment,
     });
-    await furniture.comments.push(newComment);
-    furniture.save();
-    newComment.save();
+    furniture.comments.push(newComment);
+    await furniture.save();
+    await newComment.save();
     response.redirect(`/furnitures/${id}`);
   })
 );
 
 // delete comment: should have a middleware to handle the deleting, for example: if furniture is deleted first, then the comment should be deleted by follow
+app.delete(
+  '/furnitures/:id/comment/:commentID',
+  WrapAsync(async (request, response) => {
+    res.send('delete ME');
+  })
+);
 
 // nothing is matched
 app.all('*', (req, res, next) => {
