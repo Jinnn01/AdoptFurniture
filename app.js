@@ -148,6 +148,9 @@ app.post(
     response.redirect(`/furnitures/${id}`);
   })
 );
+
+// delete comment: should have a middleware to handle the deleting, for example: if furniture is deleted first, then the comment should be deleted by follow
+
 // nothing is matched
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page not found', 404));
