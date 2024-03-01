@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Comment = require('./comment');
 
 const furnitureSchema = new Schema({
   name: {
@@ -16,6 +17,15 @@ const furnitureSchema = new Schema({
       ref: 'Comment',
     },
   ],
+});
+
+// if the furniture has been deleted, then all the comments in that furniture, should be deleted as well.
+furnitureSchema.post('findOneAndDelete', async function (furniture) {
+  if (furniture.comments.length) {
+    const res = await Comment.deleteMany({ _id: { $in: furniture.comments } });
+    console.log(res);
+  }
+  console.log('post', furniture);
 });
 
 const Furniture = mongoose.model('Furniture', furnitureSchema);

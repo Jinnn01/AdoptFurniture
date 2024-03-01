@@ -116,7 +116,7 @@ app.patch(
   })
 );
 
-// delete by id
+// delete furniture by id
 app.delete(
   '/furnitures/:id',
   WrapAsync(async (request, response) => {
@@ -134,14 +134,6 @@ const validateComment = (request, response, next) => {
     next();
   }
 };
-
-// // display comment form
-// app.get(
-//   '/furnitures/:id/comment/new',
-//   WrapAsync(async (request, response) => {
-//     response.render('furnitures/detail');
-//   })
-// );
 
 // add comment
 app.post(
@@ -165,7 +157,16 @@ app.post(
 app.delete(
   '/furnitures/:id/comment/:commentID',
   WrapAsync(async (request, response) => {
-    res.send('delete ME');
+    const { id, commentID } = request.params;
+    // delete comment for a furniture
+    const deleteCommentFromFurniture = await Furniture.findByIdAndUpdate(id, {
+      $pull: {
+        comments: { $eq: commentID },
+      },
+    });
+    const comment = await Comment.findByIdAndDelete(commentID);
+    console.log(`Got furniture${id} and comment ${commentID}`);
+    response.redirect(`/furnitures/${id}`);
   })
 );
 
