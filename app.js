@@ -9,7 +9,8 @@ const ExpressError = require('./services/ErrorHandling');
 const { furnitureSchema, commentSchema } = require('./middleware/validate');
 const WrapAsync = require('./services/WrapAsync');
 const Joi = require('joi');
-const { request } = require('http');
+const furnitureRouter = require('./routes/furnitures');
+const commentRouter = require('./routes/comments');
 
 mongoose
   .connect('mongodb://127.0.0.1:27017/adoptfurniture')
@@ -29,147 +30,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
 
-const validateFurniture = (request, response, next) => {
-  const validatedFurniture = furnitureSchema.validate(request.body);
-  if (validatedFurniture.error) {
-    // const msg = validatedFurniture.error.details.map((el) =>
-    //   el.message.join(',')
-    // );
-    throw new ExpressError(validatedFurniture.error, 400);
-  } else {
-    next();
-  }
-};
-
 app.get('/', (request, response) => {
   response.render('home');
 });
 
-// set up for add a new furniture
-// 1. display form
-app.get('/addFurniture', (request, response) => {
-  response.render('furnitures/new');
-});
-
-// 2. store item in db
-app.post(
-  '/furnitures',
-  validateFurniture,
-  WrapAsync(async (request, response, next) => {
-    // console.log(validatedFurniture);
-    const { fName, fLocation, fPrice, fDescription, fImage } = request.body;
-    const newFurniture = new Furniture({
-      name: fName,
-      location: fLocation,
-      price: fPrice,
-      description: fDescription,
-      img: fImage,
-    });
-    await newFurniture.save();
-
-    response.redirect(`furnitures/${newFurniture._id}`);
-  })
-);
-
-// get all furnitures
-app.get('/furnitures', async (request, response) => {
-  const allFurnitures = await Furniture.find({});
-  response.render('furnitures/index', { allFurnitures });
-});
-
-// get detail by id
-app.get(
-  '/furnitures/:id',
-  WrapAsync(async (request, response, next) => {
-    const id = request.params.id;
-    const furniture = await Furniture.findById(id).populate('comments');
-    if (!furniture) throw new ExpressError('Furniture not found', 400);
-    response.render('furnitures/detail', { furniture });
-  })
-);
-
-// display a form for edit info
-app.get(
-  '/furnitures/:id/edit',
-  WrapAsync(async (request, response) => {
-    const id = request.params.id;
-    const furniture = await Furniture.findById(id);
-    response.render('furnitures/edit', { furniture });
-  })
-);
-
-// edit item by id
-app.patch(
-  '/furnitures/:id',
-  validateFurniture,
-  WrapAsync(async (request, response) => {
-    const id = request.params.id;
-    const { fName, fLocation, fPrice, fDescription, fImage } = request.body;
-    const editedFurniture = await Furniture.findByIdAndUpdate(id, {
-      name: fName,
-      location: fLocation,
-      price: fPrice,
-      description: fDescription,
-      img: fImage,
-    });
-    response.redirect(`/furnitures/${id}`);
-  })
-);
-
-// delete furniture by id
-app.delete(
-  '/furnitures/:id',
-  WrapAsync(async (request, response) => {
-    const id = request.params.id;
-    const deletedFurniture = await Furniture.findByIdAndDelete(id);
-    response.redirect('/furnitures');
-  })
-);
-
-const validateComment = (request, response, next) => {
-  const validatedComment = commentSchema.validate(request.body);
-  if (validatedComment.error) {
-    throw new ExpressError(validatedComment.error, 400);
-  } else {
-    next();
-  }
-};
-
-// add comment
-app.post(
-  '/furnitures/:id/comment',
-  validateComment,
-  WrapAsync(async (request, response) => {
-    const id = request.params.id;
-    const { comment } = request.body;
-    const furniture = await Furniture.findById(id);
-    const newComment = new Comment({
-      comment: comment,
-    });
-    furniture.comments.push(newComment);
-    await furniture.save();
-    await newComment.save();
-    response.redirect(`/furnitures/${id}`);
-  })
-);
-
-// delete comment: should have a middleware to handle the deleting, for example: if furniture is deleted first, then the comment should be deleted by follow
-app.delete(
-  '/furnitures/:id/comment/:commentID',
-  WrapAsync(async (request, response) => {
-    const { id, commentID } = request.params;
-    // delete comment for a furniture
-    const deleteCommentFromFurniture = await Furniture.findByIdAndUpdate(id, {
-      $pull: {
-        comments: { $eq: commentID },
-      },
-    });
-    const comment = await Comment.findByIdAndDelete(commentID);
-    console.log(`Got furniture${id} and comment ${commentID}`);
-    response.redirect(`/furnitures/${id}`);
-  })
-);
-
+app.use('/furnitures', furnitureRouter);
+app.use('/furnitures', commentRouter);
 // nothing is matched
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page not found', 404));
