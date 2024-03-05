@@ -1,14 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Furniture = require('./models/furniture');
-const Comment = require('./models/comment');
 const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const ExpressError = require('./services/ErrorHandling');
-const { furnitureSchema, commentSchema } = require('./middleware/validate');
-const WrapAsync = require('./services/WrapAsync');
-const Joi = require('joi');
+const session = require('express-session');
+const flash = require('connect-flash');
 const furnitureRouter = require('./routes/furnitures');
 const commentRouter = require('./routes/comments');
 
@@ -30,11 +27,31 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
+
+const sessionConfigs = {
+  secret: 'adoptfurnitureforyournexthome!',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    // a week
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+};
+
+app.use(session(sessionConfigs));
+
+app.use((request, response, next) => {
+  response.locals.success = request.flash('success');
+  response.locals.error = request.flash('error');
+  next();
+});
 
 app.get('/', (request, response) => {
   response.render('home');
 });
-
 app.use('/furnitures', furnitureRouter);
 app.use('/furnitures/:id/comment', commentRouter);
 // nothing is matched

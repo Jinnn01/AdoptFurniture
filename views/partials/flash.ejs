@@ -1,0 +1,38 @@
+<%if(success && success.length){%>
+
+<div
+  class="alert alert-success alert-dismissible fade show"
+  id="myAlert"
+  role="alert"
+>
+  <%=success%>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+<%}%> <%if(error && error.length){%>
+<div
+  class="alert alert-danger alert-dismissible fade show"
+  id="myAlert"
+  role="alert"
+>
+  <%=error%>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  ></button>
+</div>
+<%}%>
+
+<script>
+  // set alert dismiss after 3s
+  const alert = document.getElementById('myAlert');
+  setTimeout(function () {
+    alert.style.display = 'none';
+  }, 3000);
+</script>

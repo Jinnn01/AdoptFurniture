@@ -3,6 +3,7 @@ const Furniture = require('../models/furniture');
 const router = express.Router();
 const { furnitureSchema } = require('../middleware/validate');
 const WrapAsync = require('../services/WrapAsync');
+const flash = require('connect-flash');
 
 const validateFurniture = (request, response, next) => {
   const validatedFurniture = furnitureSchema.validate(request.body);
@@ -33,22 +34,25 @@ router.post(
       img: fImage,
     });
     await newFurniture.save();
-
+    request.flash('success', 'Successfully add a new furniture!');
     response.redirect(`${newFurniture._id}`);
   })
 );
 
 router.get('/', async (request, response) => {
   const allFurnitures = await Furniture.find({});
-  response.render('furnitures/index', { allFurnitures });
+  response.render('furnitures', { allFurnitures });
 });
 
 router.get(
   '/:id',
-  WrapAsync(async (request, response, next) => {
+  WrapAsync(async (request, response) => {
     const id = request.params.id;
     const furniture = await Furniture.findById(id).populate('comments');
-    if (!furniture) throw new ExpressError('Furniture not found', 400);
+    if (!furniture) {
+      request.flash('error', "Can't find the furniture");
+      return response.redirect('/furnitures');
+    }
     response.render('furnitures/detail', { furniture });
   })
 );
@@ -77,6 +81,10 @@ router.patch(
       description: fDescription,
       img: fImage,
     });
+    if (!editedFurniture) {
+      request.flash('error', "Cant't update the furniture");
+    }
+    request.flash('success', 'Successfully updated a furniture!');
     response.redirect(`/furnitures/${id}`);
   })
 );
@@ -87,6 +95,7 @@ router.delete(
   WrapAsync(async (request, response) => {
     const id = request.params.id;
     const deletedFurniture = await Furniture.findByIdAndDelete(id);
+    request.flash('success', 'Successfully deleted a furniture!');
     response.redirect('/furnitures');
   })
 );

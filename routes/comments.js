@@ -8,6 +8,7 @@ const WrapAsync = require('../services/WrapAsync');
 const validateComment = (request, response, next) => {
   const validatedComment = commentSchema.validate(request.body);
   if (validatedComment.error) {
+    request.flash('error', 'Please enter validated info');
     throw new ExpressError(validatedComment.error, 400);
   } else {
     next();
@@ -28,6 +29,7 @@ router.post(
     furniture.comments.push(newComment);
     await furniture.save();
     await newComment.save();
+    request.flash('success', 'Successfully made a comment!');
     response.redirect(`/furnitures/${id}`);
   })
 );
@@ -44,7 +46,11 @@ router.delete(
       },
     });
     const comment = await Comment.findByIdAndDelete(commentID);
+    if (!comment) {
+      request.flash('error', "Can't delete this comment");
+    }
     // console.log(`Got furniture${id} and comment ${commentID}`);
+    request.flash('success', 'Successfully deleted a comment!');
     response.redirect(`/furnitures/${id}`);
   })
 );
