@@ -29,13 +29,14 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (request, response) => {
   response.render('home');
 });
 
 app.use('/furnitures', furnitureRouter);
-app.use('/furnitures', commentRouter);
+app.use('/furnitures/:id/comment', commentRouter);
 // nothing is matched
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page not found', 404));

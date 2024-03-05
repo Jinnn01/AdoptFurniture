@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 const Furniture = require('../models/furniture');
 const Comment = require('../models/comment');
 const { commentSchema } = require('../middleware/validate');
@@ -16,7 +16,7 @@ const validateComment = (request, response, next) => {
 
 // add comment
 router.post(
-  '/:id/comment',
+  '/',
   validateComment,
   WrapAsync(async (request, response) => {
     const id = request.params.id;
@@ -34,7 +34,7 @@ router.post(
 
 // delete comment: should have a middleware to handle the deleting, for example: if furniture is deleted first, then the comment should be deleted by follow
 router.delete(
-  '/:id/comment/:commentID',
+  '/:commentID',
   WrapAsync(async (request, response) => {
     const { id, commentID } = request.params;
     // delete comment for a furniture
@@ -44,7 +44,7 @@ router.delete(
       },
     });
     const comment = await Comment.findByIdAndDelete(commentID);
-    console.log(`Got furniture${id} and comment ${commentID}`);
+    // console.log(`Got furniture${id} and comment ${commentID}`);
     response.redirect(`/furnitures/${id}`);
   })
 );
