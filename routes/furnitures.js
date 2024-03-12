@@ -3,7 +3,9 @@ const Furniture = require('../models/furniture');
 const router = express.Router();
 const { furnitureSchema } = require('../middleware/validate');
 const WrapAsync = require('../services/WrapAsync');
+const { isLoggedIn } = require('../middleware/auth');
 const flash = require('connect-flash');
+const bcrypt = require('bcrypt');
 
 const validateFurniture = (request, response, next) => {
   const validatedFurniture = furnitureSchema.validate(request.body);
@@ -15,13 +17,14 @@ const validateFurniture = (request, response, next) => {
 };
 
 // display create furniture form
-router.get('/newFurniture', (request, response) => {
+router.get('/newFurniture', isLoggedIn, (request, response) => {
   response.render('furnitures/new');
 });
 
 // add furniture
 router.post(
   '/add',
+  isLoggedIn,
   validateFurniture,
   WrapAsync(async (request, response, next) => {
     // console.log(validatedFurniture);
@@ -60,6 +63,7 @@ router.get(
 // display a form for edit info
 router.get(
   '/:id/edit',
+  isLoggedIn,
   WrapAsync(async (request, response) => {
     const id = request.params.id;
     const furniture = await Furniture.findById(id);
@@ -67,9 +71,10 @@ router.get(
   })
 );
 
-// edit item by id
+// edit item by id, only owner can edit
 router.patch(
   '/:id',
+  isLoggedIn,
   validateFurniture,
   WrapAsync(async (request, response) => {
     const id = request.params.id;
@@ -89,9 +94,10 @@ router.patch(
   })
 );
 
-// delete furniture by id
+// delete furniture by id, only owner can delete
 router.delete(
   '/:id',
+  isLoggedIn,
   WrapAsync(async (request, response) => {
     const id = request.params.id;
     const deletedFurniture = await Furniture.findByIdAndDelete(id);

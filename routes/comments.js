@@ -4,6 +4,7 @@ const Furniture = require('../models/furniture');
 const Comment = require('../models/comment');
 const { commentSchema } = require('../middleware/validate');
 const WrapAsync = require('../services/WrapAsync');
+const { isLoggedIn } = require('../middleware/auth');
 
 const validateComment = (request, response, next) => {
   const validatedComment = commentSchema.validate(request.body);
@@ -14,10 +15,11 @@ const validateComment = (request, response, next) => {
     next();
   }
 };
-
+// TODO: ADD USER
 // add comment
 router.post(
   '/',
+  isLoggedIn,
   validateComment,
   WrapAsync(async (request, response) => {
     const id = request.params.id;

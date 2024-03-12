@@ -47,15 +47,15 @@
       </li>
     </ul>
 
-    <div class="card-body">
+    <div class="card-body row justify-content-evenly" style="align-self: center;">
       <form
-        action="/furnitures/<%=furniture._id%>?_method=DELETE"
+        action="/furnitures/<%=furniture._id%>?_method=PATCH"
         method="POST"
-        class="row justify-content-evenly"
+        class="col-5"
       >
         <button
-          class="btn btn-secondary col-3"
-          style="background-color: #436850"
+          class="btn btn-secondary"
+          style="background-color: #436850;"
         >
           <a
             href="/furnitures/<%=furniture._id%>/edit"
@@ -63,11 +63,17 @@
             >Edit this furniture</a
           >
         </button>
+      </form>
+      <form
+      action="/furnitures/<%=furniture._id%>?_method=DELETE"
+      method="POST"
+      class="col-5 "
+    >
         <button
-          class="btn btn-secondary col-3"
-          style="background-color: #9b4444"
+          class="btn btn-secondary"
+          style="background-color: #9b4444;"
         >
-          Delete the item
+          Delete this item
         </button>
       </form>
     </div>

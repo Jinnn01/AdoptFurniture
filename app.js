@@ -8,6 +8,10 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const furnitureRouter = require('./routes/furnitures');
 const commentRouter = require('./routes/comments');
+const userRouter = require('./routes/users');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
 mongoose
   .connect('mongodb://127.0.0.1:27017/adoptfurniture')
@@ -42,8 +46,17 @@ const sessionConfigs = {
 };
 
 app.use(session(sessionConfigs));
+// set up for passport.js
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+// install user in session
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use((request, response, next) => {
+  console.log(request.session);
+  response.locals.currentUser = request.user;
   response.locals.success = request.flash('success');
   response.locals.error = request.flash('error');
   next();
@@ -52,6 +65,8 @@ app.use((request, response, next) => {
 app.get('/', (request, response) => {
   response.render('home');
 });
+
+app.use('/', userRouter);
 app.use('/furnitures', furnitureRouter);
 app.use('/furnitures/:id/comment', commentRouter);
 // nothing is matched

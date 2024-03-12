@@ -10,7 +10,8 @@ const commentSchema = new Schema(
       type: Number,
     },
     user: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
   },
   { timestamps: true }
