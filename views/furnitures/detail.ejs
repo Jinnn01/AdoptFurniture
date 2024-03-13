@@ -7,7 +7,7 @@
     <div class="card-body">
       <h2 class="card-title"><%= furniture.name%></h2>
       <small class="card-subtitle mb-2 text-body-secondary"
-        >Post By:<%=user.username%></small
+        >Post By: <%=poster ? poster.username.toUpperCase():'Admin'%></small
       >
       <div class="card-text"><i><%=furniture.description%></i></div>
     </div>
@@ -114,13 +114,13 @@
     
   </div>
     <ol class="list-group mb-3" style="width: 100%; margin-top: 20px">
-      <%if(furniture.comments.length){%> <%for(let comment of
-      furniture.comments){%>
+      <%if(comments.length){%> <%for(let comment of
+      comments){%>
       <li
         class="list-group-item d-flex justify-content-between align-items-start"
       >
         <div class="ms-2 me-auto">
-          <div class="fw-bold">User name</div>
+          <div class="fw-bold"><%=comment.user.username.toUpperCase()%></div>
           <%= comment.comment%> <br/>
           <small style="color: grey;"><i><%=comment.createdAt%></i></small>
           <span

@@ -1,6 +1,7 @@
 const express = require('express');
 const Furniture = require('../models/furniture');
 const User = require('../models/user');
+const Comment = require('../models/comment');
 const router = express.Router();
 const { furnitureSchema } = require('../middleware/validate');
 const WrapAsync = require('../services/WrapAsync');
@@ -39,15 +40,12 @@ router.post(
       description: fDescription,
       img: fImage,
     });
-    // find the user and
-    // console.log('The operating user is ', response.locals.currentUser);
-
-    // add furniture in that user furnitures page
+    // add furniture in that user.furnitures
     const user = await User.findById(currentUserID);
     user.furnitures.push(newFurniture);
     const savingUser = await user.save();
     const savingFurniture = await newFurniture.save();
-    console.log('Saved furniture', savingFurniture);
+    // console.log('Saved furniture', savingFurniture);
     request.flash('success', 'Successfully add a new furniture!');
     response.redirect(`${newFurniture._id}`);
   })
@@ -63,14 +61,19 @@ router.get(
   WrapAsync(async (request, response) => {
     const id = request.params.id;
     const furniture = await Furniture.findById(id).populate('comments');
+    const commentersID = furniture.comments.map((comment) => comment.user);
+    console.log(commentersID);
     if (!furniture) {
       request.flash('error', "Can't find the furniture");
       return response.redirect('/furnitures');
     }
     // find who post this furniture
-    const user = await User.findOne({ furnitures: { $eq: id } });
-    console.log('Found the user', user);
-    response.render('furnitures/detail', { furniture, user });
+    const poster = await User.findOne({ furnitures: { $eq: id } });
+    // find all the comments based on the furniture, and populate the user info asscociate with this comment
+    const comments = await Comment.find({ furniture: { $eq: id } }).populate(
+      'user'
+    );
+    response.render('furnitures/detail', { furniture, poster, comments });
   })
 );
 

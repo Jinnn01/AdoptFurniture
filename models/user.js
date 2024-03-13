@@ -22,6 +22,7 @@ const UserSchema = new Schema({
   ],
 });
 
+// TODO: Think about, if user delete their account, what will happen to their post or comment?
 UserSchema.plugin(passportLocalMongoose);
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
