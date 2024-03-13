@@ -8,6 +8,18 @@ const UserSchema = new Schema({
     required: true,
     unique: true,
   },
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
+  furnitures: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Furniture',
+    },
+  ],
 });
 
 UserSchema.plugin(passportLocalMongoose);

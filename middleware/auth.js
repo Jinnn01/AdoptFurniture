@@ -7,7 +7,6 @@ module.exports.isLoggedIn = (request, response, next) => {
   }
   next();
 };
-
 module.exports.storeReturnTo = (req, res, next) => {
   if (req.session.returnTo) {
     // store the returnTo url in the local variables

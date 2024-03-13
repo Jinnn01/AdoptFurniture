@@ -13,6 +13,10 @@ const commentSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
+    furniture: {
+      type: Schema.Types.ObjectId,
+      ref: 'Furniture',
+    },
   },
   { timestamps: true }
 );

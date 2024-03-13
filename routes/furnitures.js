@@ -1,5 +1,6 @@
 const express = require('express');
 const Furniture = require('../models/furniture');
+const User = require('../models/user');
 const router = express.Router();
 const { furnitureSchema } = require('../middleware/validate');
 const WrapAsync = require('../services/WrapAsync');
@@ -27,6 +28,8 @@ router.post(
   isLoggedIn,
   validateFurniture,
   WrapAsync(async (request, response, next) => {
+    const currentUserID = response.locals.currentUser._id;
+    console.log(currentUserID);
     // console.log(validatedFurniture);
     const { fName, fLocation, fPrice, fDescription, fImage } = request.body;
     const newFurniture = new Furniture({
@@ -36,7 +39,15 @@ router.post(
       description: fDescription,
       img: fImage,
     });
-    await newFurniture.save();
+    // find the user and
+    // console.log('The operating user is ', response.locals.currentUser);
+
+    // add furniture in that user furnitures page
+    const user = await User.findById(currentUserID);
+    user.furnitures.push(newFurniture);
+    const savingUser = await user.save();
+    const savingFurniture = await newFurniture.save();
+    console.log('Saved furniture', savingFurniture);
     request.flash('success', 'Successfully add a new furniture!');
     response.redirect(`${newFurniture._id}`);
   })
@@ -56,11 +67,15 @@ router.get(
       request.flash('error', "Can't find the furniture");
       return response.redirect('/furnitures');
     }
-    response.render('furnitures/detail', { furniture });
+    // find who post this furniture
+    const user = await User.findOne({ furnitures: { $eq: id } });
+    console.log('Found the user', user);
+    response.render('furnitures/detail', { furniture, user });
   })
 );
 
-// display a form for edit info
+// display a form for edit info:
+// TODO: only the post owner can edit/ delete this furniture
 router.get(
   '/:id/edit',
   isLoggedIn,
