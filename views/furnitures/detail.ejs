@@ -7,7 +7,7 @@
     <div class="card-body">
       <h2 class="card-title"><%= furniture.name%></h2>
       <small class="card-subtitle mb-2 text-body-secondary"
-        >Post By: <%=poster ? poster.username.toUpperCase():'Admin'%></small
+        >Post By: <%=poster ? poster.username.toUpperCase():'Null'%></small
       >
       <div class="card-text"><i><%=furniture.description%></i></div>
     </div>
@@ -47,6 +47,7 @@
       </li>
     </ul>
 
+    <% if(currentUser && poster._id.equals(currentUser._id)){%>
     <div class="card-body row justify-content-evenly" style="align-self: center;">
       <form
         action="/furnitures/<%=furniture._id%>?_method=PATCH"
@@ -77,6 +78,7 @@
         </button>
       </form>
     </div>
+    <% }%>
     <div class="card-footer text-body-secondary">
       <!-- <a href="/furnitures">View all furnitures</a> -->
       <a href="/furnitures">To view all furnitures</a>
@@ -127,10 +129,12 @@
             class="position-absolute top-0 start-100 translate-middle badge text-bg-primary rounded-pill"
             >likes</span
           >
+          <%if(currentUser && comment.user.equals(currentUser._id)){%>
           <form action="/furnitures/<%=furniture.id%>/comment/<%=comment._id%>?_method=DELETE" method="post" style="display: flex;justify-content: end;">
             <button class="btn btn-sm btn-secondary"
           style="background-color: #9b4444;font-size: small;">Delete</button>
           </form>
+          <%}%>
 
         </div>
         <%}%> 

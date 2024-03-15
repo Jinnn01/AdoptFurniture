@@ -3,19 +3,10 @@ const router = express.Router({ mergeParams: true });
 const Furniture = require('../models/furniture');
 const Comment = require('../models/comment');
 const User = require('../models/user');
-const { commentSchema } = require('../middleware/validate');
+const { validateComment } = require('../middleware/validate');
 const WrapAsync = require('../services/WrapAsync');
-const { isLoggedIn } = require('../middleware/auth');
+const { isLoggedIn, isCommentAuthor } = require('../middleware/auth');
 
-const validateComment = (request, response, next) => {
-  const validatedComment = commentSchema.validate(request.body);
-  if (validatedComment.error) {
-    request.flash('error', 'Please enter validated info');
-    throw new ExpressError(validatedComment.error, 400);
-  } else {
-    next();
-  }
-};
 // TODO: ADD USER
 // add comment
 router.post(
@@ -46,8 +37,11 @@ router.post(
 
 // delete comment: should have a middleware to handle the deleting, for example: if furniture is deleted first, then the comment should be deleted by follow
 // only this user or the furniture poster can delete this comment
+
 router.delete(
   '/:commentID',
+  isLoggedIn,
+  isCommentAuthor,
   WrapAsync(async (request, response) => {
     const { id, commentID } = request.params;
     // delete comment for a furniture

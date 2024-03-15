@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Furniture = require('../models/furniture');
+const User = require('../models/user');
 const path = require('path');
 const suburbs = require('./suburbs');
 const { textureDescriptors, furnitureNames } = require('./furnitures');
@@ -30,7 +31,10 @@ const seedDB = async () => {
         'Lorem ipsum dolor sit amet consectetur, adipisicing elit. A aperiam, cum ducimus consequuntur rerum ea beatae ullam nesciunt nobis tenetur provident dolor facilis ipsam? Quis officia repudiandae minima quod necessitatibus!',
       price,
     });
-    await randomFurniture.save();
+    const user = await User.findById('65f3d07d89d1730eb91c4707');
+    user.furnitures.push(randomFurniture);
+    const savingUser = await user.save();
+    const savingFurniture = await randomFurniture.save();
   }
 };
 

@@ -3,20 +3,11 @@ const Furniture = require('../models/furniture');
 const User = require('../models/user');
 const Comment = require('../models/comment');
 const router = express.Router();
-const { furnitureSchema } = require('../middleware/validate');
+const { validateFurniture } = require('../middleware/validate');
 const WrapAsync = require('../services/WrapAsync');
-const { isLoggedIn } = require('../middleware/auth');
+const { isLoggedIn, storeReturnTo, isAuthor } = require('../middleware/auth');
 const flash = require('connect-flash');
 const bcrypt = require('bcrypt');
-
-const validateFurniture = (request, response, next) => {
-  const validatedFurniture = furnitureSchema.validate(request.body);
-  if (validatedFurniture.error) {
-    throw new ExpressError(validatedFurniture.error, 400);
-  } else {
-    next();
-  }
-};
 
 // display create furniture form
 router.get('/newFurniture', isLoggedIn, (request, response) => {
@@ -62,7 +53,6 @@ router.get(
     const id = request.params.id;
     const furniture = await Furniture.findById(id).populate('comments');
     const commentersID = furniture.comments.map((comment) => comment.user);
-    console.log(commentersID);
     if (!furniture) {
       request.flash('error', "Can't find the furniture");
       return response.redirect('/furnitures');
@@ -79,20 +69,28 @@ router.get(
 
 // display a form for edit info:
 // TODO: only the post owner can edit/ delete this furniture
+
 router.get(
   '/:id/edit',
   isLoggedIn,
+  isAuthor,
   WrapAsync(async (request, response) => {
     const id = request.params.id;
     const furniture = await Furniture.findById(id);
+    if (!furniture) {
+      request.flash('error', "Sorry, we can't find the furniture");
+      return response.redirect(`/furnitures`);
+    }
     response.render('furnitures/edit', { furniture });
   })
 );
 
 // edit item by id, only owner can edit
+// break into two steps: find and update
 router.patch(
   '/:id',
   isLoggedIn,
+  isAuthor,
   validateFurniture,
   WrapAsync(async (request, response) => {
     const id = request.params.id;
