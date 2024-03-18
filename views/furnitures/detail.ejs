@@ -3,7 +3,10 @@
 <div class="container d-flex justify-content-between">
   <div class="card col mx-3" style="width: 80vw">
     <!-- TODO:resize the img size -->
-    <img src="<%=furniture.img %>" class="card-img-top" style="min-height: 300px;"/>
+    <% for (let img of furniture.img){%>
+      <img src="<%=img.url %>" class="card-img-top" style="min-height: 300px;"/>
+    <%}%>
+
     <div class="card-body">
       <h2 class="card-title"><%= furniture.name%></h2>
       <small class="card-subtitle mb-2 text-body-secondary"
