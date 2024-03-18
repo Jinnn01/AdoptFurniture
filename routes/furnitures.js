@@ -2,6 +2,8 @@ const express = require('express');
 const Furniture = require('../models/furniture');
 const User = require('../models/user');
 const Comment = require('../models/comment');
+
+const furnitureController = require('../controllers/furnitures');
 const router = express.Router();
 const { validateFurniture } = require('../middleware/validate');
 const WrapAsync = require('../services/WrapAsync');
@@ -9,80 +11,28 @@ const { isLoggedIn, storeReturnTo, isAuthor } = require('../middleware/auth');
 const flash = require('connect-flash');
 const bcrypt = require('bcrypt');
 
+router.get('/', furnitureController.index);
+
 // display create furniture form
-router.get('/newFurniture', isLoggedIn, (request, response) => {
-  response.render('furnitures/new');
-});
+router.get('/newFurniture', isLoggedIn, furnitureController.newForm);
 
 // add furniture
 router.post(
   '/add',
   isLoggedIn,
   validateFurniture,
-  WrapAsync(async (request, response, next) => {
-    const currentUserID = response.locals.currentUser._id;
-    console.log(currentUserID);
-    // console.log(validatedFurniture);
-    const { fName, fLocation, fPrice, fDescription, fImage } = request.body;
-    const newFurniture = new Furniture({
-      name: fName,
-      location: fLocation,
-      price: fPrice,
-      description: fDescription,
-      img: fImage,
-    });
-    // add furniture in that user.furnitures
-    const user = await User.findById(currentUserID);
-    user.furnitures.push(newFurniture);
-    const savingUser = await user.save();
-    const savingFurniture = await newFurniture.save();
-    // console.log('Saved furniture', savingFurniture);
-    request.flash('success', 'Successfully add a new furniture!');
-    response.redirect(`${newFurniture._id}`);
-  })
+  WrapAsync(furnitureController.createFurniture)
 );
 
-router.get('/', async (request, response) => {
-  const allFurnitures = await Furniture.find({});
-  response.render('furnitures', { allFurnitures });
-});
-
-router.get(
-  '/:id',
-  WrapAsync(async (request, response) => {
-    const id = request.params.id;
-    const furniture = await Furniture.findById(id).populate('comments');
-    const commentersID = furniture.comments.map((comment) => comment.user);
-    if (!furniture) {
-      request.flash('error', "Can't find the furniture");
-      return response.redirect('/furnitures');
-    }
-    // find who post this furniture
-    const poster = await User.findOne({ furnitures: { $eq: id } });
-    // find all the comments based on the furniture, and populate the user info asscociate with this comment
-    const comments = await Comment.find({ furniture: { $eq: id } }).populate(
-      'user'
-    );
-    response.render('furnitures/detail', { furniture, poster, comments });
-  })
-);
+// display details with comment
+router.get('/:id', WrapAsync(furnitureController.displayDetails));
 
 // display a form for edit info:
-// TODO: only the post owner can edit/ delete this furniture
-
 router.get(
   '/:id/edit',
   isLoggedIn,
   isAuthor,
-  WrapAsync(async (request, response) => {
-    const id = request.params.id;
-    const furniture = await Furniture.findById(id);
-    if (!furniture) {
-      request.flash('error', "Sorry, we can't find the furniture");
-      return response.redirect(`/furnitures`);
-    }
-    response.render('furnitures/edit', { furniture });
-  })
+  WrapAsync(furnitureController.editForm)
 );
 
 // edit item by id, only owner can edit
@@ -92,33 +42,9 @@ router.patch(
   isLoggedIn,
   isAuthor,
   validateFurniture,
-  WrapAsync(async (request, response) => {
-    const id = request.params.id;
-    const { fName, fLocation, fPrice, fDescription, fImage } = request.body;
-    const editedFurniture = await Furniture.findByIdAndUpdate(id, {
-      name: fName,
-      location: fLocation,
-      price: fPrice,
-      description: fDescription,
-      img: fImage,
-    });
-    if (!editedFurniture) {
-      request.flash('error', "Cant't update the furniture");
-    }
-    request.flash('success', 'Successfully updated a furniture!');
-    response.redirect(`/furnitures/${id}`);
-  })
+  WrapAsync(furnitureController.updateFurniture)
 );
 
 // delete furniture by id, only owner can delete
-router.delete(
-  '/:id',
-  isLoggedIn,
-  WrapAsync(async (request, response) => {
-    const id = request.params.id;
-    const deletedFurniture = await Furniture.findByIdAndDelete(id);
-    request.flash('success', 'Successfully deleted a furniture!');
-    response.redirect('/furnitures');
-  })
-);
+router.delete('/:id', isLoggedIn, WrapAsync(furnitureController.delete));
 module.exports = router;
