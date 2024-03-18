@@ -1,27 +1,27 @@
 const express = require('express');
-const Furniture = require('../models/furniture');
-const User = require('../models/user');
-const Comment = require('../models/comment');
+const multer = require('multer');
 
 const furnitureController = require('../controllers/furnitures');
 const router = express.Router();
 const { validateFurniture } = require('../middleware/validate');
 const WrapAsync = require('../services/WrapAsync');
 const { isLoggedIn, storeReturnTo, isAuthor } = require('../middleware/auth');
-const flash = require('connect-flash');
-const bcrypt = require('bcrypt');
+const upload = multer();
 
 router.get('/', furnitureController.index);
-
 // display create furniture form
 router.get('/newFurniture', isLoggedIn, furnitureController.newForm);
 
 // add furniture
 router.post(
   '/add',
-  isLoggedIn,
-  validateFurniture,
-  WrapAsync(furnitureController.createFurniture)
+  upload.array('fImage'),
+  // isLoggedIn,
+  // validateFurniture,
+  // WrapAsync(furnitureController.createFurniture)
+  WrapAsync(async (request, response) => {
+    console.log(request.files);
+  })
 );
 
 router
