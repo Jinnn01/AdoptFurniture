@@ -12,19 +12,23 @@ module.exports.newForm = (request, response) => {
 };
 
 module.exports.createFurniture = async (request, response, next) => {
+  const furnitureImg = request.files.map((image) => ({
+    url: image.path,
+    filename: image.filename,
+  }));
+  console.log(furnitureImg);
   const currentUserID = response.locals.currentUser._id;
-
-  const { fName, fLocation, fPrice, fDescription, fImage } = request.body;
+  const { fName, fLocation, fPrice, fDescription } = request.body;
   const newFurniture = new Furniture({
     name: fName,
     location: fLocation,
     price: fPrice,
     description: fDescription,
-    img: fImage,
+    img: furnitureImg,
   });
   // add furniture in that user.furnitures
   const user = await User.findById(currentUserID);
-  user.furnitures.push(newFurniture);
+  user.furnitures.push(newFurniture._id);
   const savingUser = await user.save();
   const savingFurniture = await newFurniture.save();
   request.flash('success', 'Successfully add a new furniture!');

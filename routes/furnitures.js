@@ -6,7 +6,8 @@ const router = express.Router();
 const { validateFurniture } = require('../middleware/validate');
 const WrapAsync = require('../services/WrapAsync');
 const { isLoggedIn, storeReturnTo, isAuthor } = require('../middleware/auth');
-const upload = multer();
+const { storage } = require('../cloudinary/index');
+const upload = multer({ storage });
 
 router.get('/', furnitureController.index);
 // display create furniture form
@@ -15,13 +16,10 @@ router.get('/newFurniture', isLoggedIn, furnitureController.newForm);
 // add furniture
 router.post(
   '/add',
+  isLoggedIn,
   upload.array('fImage'),
-  // isLoggedIn,
   // validateFurniture,
-  // WrapAsync(furnitureController.createFurniture)
-  WrapAsync(async (request, response) => {
-    console.log(request.files);
-  })
+  WrapAsync(furnitureController.createFurniture)
 );
 
 router

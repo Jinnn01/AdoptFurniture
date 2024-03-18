@@ -1,11 +1,11 @@
 const Joi = require('joi');
+const ExpressError = require('../services/ErrorHandling');
 
 const furnitureSchema = Joi.object({
   fName: Joi.string().required(),
   fLocation: Joi.string().required(),
   fPrice: Joi.number().min(0),
   fDescription: Joi.string().allow(''),
-  fImage: Joi.string().allow(''),
 });
 
 const commentSchema = Joi.object({

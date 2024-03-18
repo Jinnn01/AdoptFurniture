@@ -10,7 +10,7 @@ const furnitureSchema = new Schema({
   price: Number,
   description: String,
   location: String,
-  img: String,
+  img: [{ url: String, filename: String }],
   comments: [
     {
       type: Schema.Types.ObjectId,
