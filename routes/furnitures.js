@@ -24,8 +24,16 @@ router.post(
   WrapAsync(furnitureController.createFurniture)
 );
 
-// display details with comment
-router.get('/:id', WrapAsync(furnitureController.displayDetails));
+router
+  .route('/:id')
+  .get(WrapAsync(furnitureController.displayDetails)) // display details with comment
+  .patch(
+    isLoggedIn,
+    isAuthor,
+    validateFurniture,
+    WrapAsync(furnitureController.updateFurniture)
+  ) // edit item by id, only owner can edit
+  .delete(isLoggedIn, WrapAsync(furnitureController.delete)); // delete furniture by id, only owner can delete
 
 // display a form for edit info:
 router.get(
@@ -35,16 +43,4 @@ router.get(
   WrapAsync(furnitureController.editForm)
 );
 
-// edit item by id, only owner can edit
-// break into two steps: find and update
-router.patch(
-  '/:id',
-  isLoggedIn,
-  isAuthor,
-  validateFurniture,
-  WrapAsync(furnitureController.updateFurniture)
-);
-
-// delete furniture by id, only owner can delete
-router.delete('/:id', isLoggedIn, WrapAsync(furnitureController.delete));
 module.exports = router;

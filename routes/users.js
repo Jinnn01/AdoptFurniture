@@ -6,24 +6,24 @@ const passport = require('passport');
 const { storeReturnTo } = require('../middleware/auth');
 const WrapAsync = require('../services/WrapAsync');
 
-// display form
-router.get('/signup', userController.signUpForm);
-
+router
+  .route('/signup')
+  .get(userController.signUpForm) // display form
+  .post(WrapAsync(userController.signUp));
 // operate the data, add new user
-router.post('/signup', WrapAsync(userController.signUp));
 
 // login
-router.get('/login', userController.loginForm);
-
-router.post(
-  '/login',
-  storeReturnTo,
-  passport.authenticate('local', {
-    failureFlash: true,
-    failureRedirect: '/login',
-  }),
-  WrapAsync(userController.login)
-);
+router
+  .route('/login')
+  .get(userController.loginForm)
+  .post(
+    storeReturnTo,
+    passport.authenticate('local', {
+      failureFlash: true,
+      failureRedirect: '/login',
+    }),
+    WrapAsync(userController.login)
+  );
 
 router.get('/logout', userController.logout);
 
