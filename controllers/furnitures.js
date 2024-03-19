@@ -16,7 +16,6 @@ module.exports.createFurniture = async (request, response, next) => {
     url: image.path,
     filename: image.filename,
   }));
-  console.log(furnitureImg);
   const currentUserID = response.locals.currentUser._id;
   const { fName, fLocation, fPrice, fDescription } = request.body;
   const newFurniture = new Furniture({

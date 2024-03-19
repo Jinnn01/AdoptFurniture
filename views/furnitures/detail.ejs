@@ -3,9 +3,28 @@
 <div class="container d-flex justify-content-between">
   <div class="card col mx-3" style="width: 80vw">
     <!-- TODO:resize the img size -->
-    <% for (let img of furniture.img){%>
-      <img src="<%=img.url %>" class="card-img-top" style="min-height: 300px;"/>
+
+    <div id="carouselFurniture"class="carousel slide">
+      <div class="carousel-inner">
+        <% for(let i = 0; i<furniture.img.length; i++){%>
+          <div class="carousel-item <%= i === 0 ? 'active' :''%>">
+            <img src="<%=furniture.img[i].url %>" alt="" class="card-img-top d-block w-100" />
+          </div>
+        <%}%>
+      </div>
+      <%if(furniture.img.length>1){%>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselFurniture" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselFurniture" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     <%}%>
+    </div>
+    
+    
 
     <div class="card-body">
       <h2 class="card-title"><%= furniture.name%></h2>

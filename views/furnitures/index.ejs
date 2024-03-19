@@ -5,9 +5,11 @@
 <div class="card mb-3">
   <div class="row g-0">
     <div class="col-md-3">
-      <% for (let img of furniture.img){%>
-      <img src="<%=img.url%>" class="img-fluid" alt="furniture image" />
-      <%}%>
+      <img
+        src="<%=furniture.img[0].url%>"
+        class="img-fluid"
+        alt="furniture image"
+      />
     </div>
     <div class="col-md-8">
       <div class="card-body">
