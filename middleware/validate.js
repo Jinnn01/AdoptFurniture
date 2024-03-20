@@ -6,6 +6,7 @@ const furnitureSchema = Joi.object({
   fLocation: Joi.string().required(),
   fPrice: Joi.number().min(0),
   fDescription: Joi.string().allow(''),
+  DeleteImgs: Joi.array(),
 });
 
 const commentSchema = Joi.object({

@@ -1,6 +1,7 @@
 const Furniture = require('../models/furniture');
 const User = require('../models/user');
 const Comment = require('../models/comment');
+const { cloudinary } = require('../cloudinary/index');
 
 module.exports.index = async (request, response) => {
   const allFurnitures = await Furniture.find({});
@@ -63,7 +64,7 @@ module.exports.editForm = async (request, response) => {
 
 module.exports.updateFurniture = async (request, response) => {
   const id = request.params.id;
-  const { fName, fLocation, fPrice, fDescription } = request.body;
+  const { fName, fLocation, fPrice, fDescription, DeleteImgs } = request.body;
   const furnitureImg = request.files.map((image) => ({
     url: image.path,
     filename: image.filename,
@@ -74,7 +75,18 @@ module.exports.updateFurniture = async (request, response) => {
     price: fPrice,
     description: fDescription,
   });
+  // to add
   editedFurniture.img.push(...furnitureImg);
+  // to delete
+  if (DeleteImgs.length) {
+    for (let filename of DeleteImgs) {
+      await cloudinary.uploader.destroy(filename);
+    }
+    await editedFurniture.updateOne({
+      $pull: { img: { filename: { $in: DeleteImgs } } },
+    });
+  }
+
   await editedFurniture.save();
 
   if (!editedFurniture) {
