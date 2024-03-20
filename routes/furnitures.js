@@ -28,6 +28,7 @@ router
   .patch(
     isLoggedIn,
     isAuthor,
+    upload.array('fImage'),
     validateFurniture,
     WrapAsync(furnitureController.updateFurniture)
   ) // edit item by id, only owner can edit

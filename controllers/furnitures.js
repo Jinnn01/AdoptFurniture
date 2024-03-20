@@ -63,14 +63,20 @@ module.exports.editForm = async (request, response) => {
 
 module.exports.updateFurniture = async (request, response) => {
   const id = request.params.id;
-  const { fName, fLocation, fPrice, fDescription, fImage } = request.body;
+  const { fName, fLocation, fPrice, fDescription } = request.body;
+  const furnitureImg = request.files.map((image) => ({
+    url: image.path,
+    filename: image.filename,
+  }));
   const editedFurniture = await Furniture.findByIdAndUpdate(id, {
     name: fName,
     location: fLocation,
     price: fPrice,
     description: fDescription,
-    img: fImage,
   });
+  editedFurniture.img.push(...furnitureImg);
+  await editedFurniture.save();
+
   if (!editedFurniture) {
     request.flash('error', "Cant't update the furniture");
   }

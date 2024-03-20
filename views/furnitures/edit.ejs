@@ -11,6 +11,7 @@
       action="/furnitures/<%=furniture._id%>?_method=PATCH"
       method="post"
       class="needs-validation"
+      enctype="multipart/form-data"
       novalidate
     >
       <div class="mb-3">
@@ -54,27 +55,40 @@
         </div>
       </div>
 
-      <label for="fDescription" class="form-lablel"
-        >Furniture Description</label
-      >
-      <textarea
-        id="fDescription"
-        type="text"
-        name="fDescription"
-        class="form-control mb-3"
-      >
+      <div class="mb-3">
+        <label for="fDescription" class="form-lablel"
+          >Furniture Description</label
+        >
+        <textarea
+          id="fDescription"
+          type="text"
+          name="fDescription"
+          class="form-control mb-3"
+        >
         <%=furniture.description%></textarea
-      >
-
-      <label for="fImage" class="form-lablel">Furniture Photo</label>
-      <input
-        id="fImage"
-        type="text"
-        name="fImage"
-        class="form-control mb-3"
-        value="<%=furniture.img %>"
-      />
-
+        >
+      </div>
+      <!--TODO: More user friendly interface-->
+      <div class="mb-3">
+        <label for="fImage" class="form-lablel">Add More Furniture Photo</label>
+        <input
+          id="fImage"
+          type="file"
+          name="fImage"
+          class="form-control"
+          placeholder="Image"
+          multiple
+        />
+      </div>
+      <div class="mb-3">
+        <% for(let i = 0; i<furniture.img.length;i++){%>
+          <img class="img-thumbnail" src="<%=furniture.img[i].url%>" />
+          <div class="form-check-inline">
+            <input type="checkbox"id="image-<%=i%>" name="DeleteImgs[]" value="<%=furniture.img[i].filename %>">
+          </div>
+          <label for="image-<%=i%>">Delete Img</label>
+        <%}%>
+      </div>
       <div class="mb-3">
         <button class="btn btn-secondary" style="background-color: #747264">
           Edit furniture
