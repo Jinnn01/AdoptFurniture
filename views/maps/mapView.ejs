@@ -1,3 +1,15 @@
-<% layout('/layouts/mapSetUp') %>
+<% layout('/layouts/boilerplate') %>
 <h1>All Furnitures</h1>
-<div id="myMap" style="position: relative; width: 600px; height: 400px"></div>
+<div
+  id="myMap"
+  class="container-fluid"
+  style="width: 80dvw; height: 60dvh"
+></div>
+
+<script
+  type="text/javascript"
+  src="http://www.bing.com/api/maps/mapcontrol?callback=GetMap&setMkt=en-AU&setLang=en&key=<%=process.env.MAP_KEY%>"
+  defer
+></script>
+
+<script type="text/javascript" src="/javascripts/getMap.js"></script>
