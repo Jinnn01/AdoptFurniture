@@ -25,7 +25,7 @@ function GetMap() {
   function updatePinContentBasedOnZoomLevel(zoomLevel) {
     // Example: Update pin text based on zoom level
     const pin = map.entities.get(0); // Assuming only one pin is added to the map
-    if (zoomLevel > 13) {
+    if (zoomLevel > 13.1) {
       pin.setOptions({
         text: 'More detailed content', // Update pin text with more detailed information
       });

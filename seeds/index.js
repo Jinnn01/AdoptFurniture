@@ -28,9 +28,18 @@ const seedDB = async () => {
       url: `https://source.unsplash.com/random/300×300/?furniture,${i}`,
       filename: `${furnitureName}${random30}`,
     };
+    const randSuburb = suburbs[random30].suburb;
+    const randObject = suburbs.find(
+      (location) => location.suburb === randSuburb
+    );
+    const randCity = randObject.city;
+    const latitude = randObject.latitude;
+    const longitude = randObject.longitude;
     const randomFurniture = new Furniture({
       name: furnitureName,
-      location: `${suburbs[random30].suburb}, ${suburbs[random30].city}`,
+      location: `${randSuburb}, ${randCity}`,
+      latitude: latitude,
+      longitude: longitude,
       img: furnitureImg,
       description:
         'Lorem ipsum dolor sit amet consectetur, adipisicing elit. A aperiam, cum ducimus consequuntur rerum ea beatae ullam nesciunt nobis tenetur provident dolor facilis ipsam? Quis officia repudiandae minima quod necessitatibus!',
