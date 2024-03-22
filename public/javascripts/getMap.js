@@ -8,19 +8,18 @@ function GetMap() {
   });
 
   // Function to add pins to the map with initial content
-  function addPinsWithContent() {
+  function addPinsWithContent(longitude, latitude, suburb) {
     // Provide location to add pin on map
-    const location = new Microsoft.Maps.Location(-34.3689, 150.8932);
+    const location = new Microsoft.Maps.Location(longitude, latitude);
     // Create a pin on the map
     const pin = new Microsoft.Maps.Pushpin(location, {
-      title: 'Corrimal',
+      title: suburb,
       subTitle: 'Description of furniture',
       text: '1',
     });
     // Add the pin to the map
     map.entities.push(pin);
   }
-
   // Function to update pin content based on zoom level
   function updatePinContentBasedOnZoomLevel(zoomLevel) {
     // Example: Update pin text based on zoom level
@@ -48,5 +47,5 @@ function GetMap() {
   Microsoft.Maps.Events.addHandler(map, 'viewchange', handleZoomLevelChange);
 
   // Add pins to the map with initial content
-  addPinsWithContent();
+  addPinsWithContent(-34.3915, 150.85, 'Dapto');
 }

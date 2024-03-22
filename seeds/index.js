@@ -38,8 +38,10 @@ const seedDB = async () => {
     const randomFurniture = new Furniture({
       name: furnitureName,
       location: `${randSuburb}, ${randCity}`,
-      latitude: latitude,
-      longitude: longitude,
+      geolocation: {
+        type: 'Point',
+        coordinates: [latitude, longitude],
+      },
       img: furnitureImg,
       description:
         'Lorem ipsum dolor sit amet consectetur, adipisicing elit. A aperiam, cum ducimus consequuntur rerum ea beatae ullam nesciunt nobis tenetur provident dolor facilis ipsam? Quis officia repudiandae minima quod necessitatibus!',

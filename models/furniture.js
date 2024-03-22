@@ -19,8 +19,17 @@ const furnitureSchema = new Schema({
   price: Number,
   description: String,
   location: String,
-  latitude: String,
-  longitude: String,
+  geolocation: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true,
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
+  },
   img: [ImageSchema],
   comments: [
     {
