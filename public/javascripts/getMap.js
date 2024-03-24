@@ -1,4 +1,4 @@
-function GetMap() {
+async function GetMap() {
   const map = new Microsoft.Maps.Map('#myMap', {});
   map.setView({
     credentials: 'Your Bing Maps Key',
@@ -20,6 +20,7 @@ function GetMap() {
     // Add the pin to the map
     map.entities.push(pin);
   }
+
   // Function to update pin content based on zoom level
   function updatePinContentBasedOnZoomLevel(zoomLevel) {
     // Example: Update pin text based on zoom level
@@ -48,4 +49,6 @@ function GetMap() {
 
   // Add pins to the map with initial content
   addPinsWithContent(-34.3915, 150.85, 'Dapto');
+  const allFurnitures = await fetch('/furnitures');
+  console.log(allFurnitures.body);
 }
