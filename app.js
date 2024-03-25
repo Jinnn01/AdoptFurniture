@@ -12,7 +12,6 @@ const flash = require('connect-flash');
 const furnitureRouter = require('./routes/furnitures');
 const commentRouter = require('./routes/comments');
 const userRouter = require('./routes/users');
-const MapRouter = require('./routes/map');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
@@ -74,7 +73,6 @@ app.get('/', (request, response) => {
 app.use('/', userRouter);
 app.use('/furnitures', furnitureRouter);
 app.use('/furnitures/:id/comment', commentRouter);
-app.use('/map', MapRouter);
 // nothing is matched
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page not found', 404));

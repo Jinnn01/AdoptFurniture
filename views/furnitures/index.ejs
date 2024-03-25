@@ -21,31 +21,37 @@
     });
 
     // Function to add pins to the map with initial content
-    function addPinsWithContent(longitude, latitude, suburb) {
+    function addPinsWithContent(longitude, latitude, suburb, count) {
       // Provide location to add pin on map
       const location = new Microsoft.Maps.Location(longitude, latitude);
       // Create a pin on the map
       const pin = new Microsoft.Maps.Pushpin(location, {
         title: suburb,
-        subTitle: 'Description of furniture',
-        text: '1',
+        subTitle: '',
+        text: count,
+        color: '#3468C0',
       });
       // Add the pin to the map
       map.entities.push(pin);
     }
 
     // Function to update pin content based on zoom level
-    function updatePinContentBasedOnZoomLevel(zoomLevel) {
+    function updatePinContentBasedOnZoomLevel(zoomLevel, content) {
       // Example: Update pin text based on zoom level
-      const pin = map.entities.get(0); // Assuming only one pin is added to the map
-      if (zoomLevel > 13.1) {
-        pin.setOptions({
-          text: 'More detailed content', // Update pin text with more detailed information
-        });
-      } else {
-        pin.setOptions({
-          text: '1', // Reset pin text to default if zoom level is less than or equal to 15
-        });
+      const pinNumber = map.entities.getLength();
+      let initalValues = [];
+      for (let i = 0; i < pinNumber; i++) {
+        const pin = map.entities.get(i);
+
+        if (zoomLevel > 13.1) {
+          pin.setOptions({
+            text: 'TBA', // Update pin text with more detailed information, sort by suburb?
+          });
+        } else {
+          pin.setOptions({
+            text: 'should be number',
+          });
+        }
       }
     }
 
@@ -60,9 +66,18 @@
     Microsoft.Maps.Events.addHandler(map, 'viewchange', handleZoomLevelChange);
 
     // Add pins to the map with initial content
-    for (let furniture of allFurnitures) {
-      const coordinate = furniture.geolocation.coordinates;
-      addPinsWithContent(coordinate[0], coordinate[1], furniture.location);
+    // to do display sum of the furnitures in each suburb
+    // TODO: when user create new furniture, update the geolocations
+    const groupedFurnitures = Object.groupBy(
+      allFurnitures,
+      ({ location }) => location
+    );
+    for (let suburb in groupedFurnitures) {
+      const furniture = groupedFurnitures[suburb];
+      const funritureNumber = String(furniture.length);
+      const coordinate = furniture[0].geolocation.coordinates;
+      // // console.log(coordinate);
+      addPinsWithContent(coordinate[0], coordinate[1], suburb, funritureNumber);
     }
   }
 </script>
