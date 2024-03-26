@@ -1,7 +1,7 @@
 module.exports.toGeoCode = async (request, response, next) => {
   const BingMapsKey = process.env.MAP_KEY;
   // geocode reuqest
-  const geoLocationRequest = request.body.fGeolocation;
+  const geoLocationRequest = request.body.fLocation;
   const geocodeRequest =
     'http://dev.virtualearth.net/REST/v1/Locations?query=' +
     encodeURIComponent(geoLocationRequest) +
@@ -15,7 +15,6 @@ module.exports.toGeoCode = async (request, response, next) => {
     const data = await result.json();
     // assume the result is the first one
     const geoLocation = data.resourceSets[0].resources[0].point;
-    console.log(geoLocation);
     if (!geoLocation) {
       request.flash('error', 'Sorry, try again');
       return response.redirect(`/furnitures/new`);

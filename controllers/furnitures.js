@@ -26,6 +26,7 @@ module.exports.createFurniture = async (request, response, next) => {
     price: fPrice,
     description: fDescription,
     img: furnitureImg,
+    geolocation: currentGeoCode,
   });
   // add furniture in that user.furnitures
   const user = await User.findById(currentUserID);
