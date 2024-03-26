@@ -6,6 +6,7 @@ const router = express.Router();
 const { validateFurniture } = require('../middleware/validate');
 const WrapAsync = require('../services/WrapAsync');
 const { isLoggedIn, storeReturnTo, isAuthor } = require('../middleware/auth');
+const { toGeoCode } = require('../middleware/geoCode');
 const { storage } = require('../cloudinary/index');
 const upload = multer({ storage });
 
@@ -18,6 +19,7 @@ router.post(
   '/add',
   isLoggedIn,
   upload.array('fImage'),
+  toGeoCode,
   // validateFurniture,
   WrapAsync(furnitureController.createFurniture)
 );

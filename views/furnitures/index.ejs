@@ -1,5 +1,8 @@
 <% layout('/layouts/boilerplate') %>
 <h1>All Furnitures</h1>
+<div style="font-family: FontAwesome; position: absolute; color: transparent">
+  Preload font, otherwise we may end up trying to use it before it is available.
+</div>
 <div id="myMap" class="container-fluid" style="height: 60dvh"></div>
 
 <script>
@@ -27,12 +30,14 @@
       // Provide location to add pin on map
       const location = new Microsoft.Maps.Location(longitude, latitude);
       // Create a pin on the map
+
       const pin = new Microsoft.Maps.Pushpin(location, {
         title: suburb,
         subTitle: '',
         text: count,
         color: '#3468C0',
       });
+
       // Add the pin to the map
       map.entities.push(pin);
       // store furniture counts

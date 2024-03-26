@@ -13,6 +13,7 @@ module.exports.newForm = (request, response) => {
 };
 
 module.exports.createFurniture = async (request, response, next) => {
+  const currentGeoCode = response.locals.geoLocation;
   const furnitureImg = request.files.map((image) => ({
     url: image.path,
     filename: image.filename,
