@@ -66,7 +66,13 @@ module.exports.editForm = async (request, response) => {
 
 module.exports.updateFurniture = async (request, response) => {
   const id = request.params.id;
-  const { fName, fLocation, fPrice, fDescription, DeleteImgs } = request.body;
+  const {
+    fName,
+    fLocation,
+    fPrice,
+    fDescription,
+    DeleteImgs = [],
+  } = request.body;
   const furnitureImg = request.files.map((image) => ({
     url: image.path,
     filename: image.filename,
