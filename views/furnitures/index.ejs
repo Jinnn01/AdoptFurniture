@@ -20,53 +20,58 @@
       zoom: 12,
     });
 
-    // store each suburbs's furniture amount
-    // let suburbs = {};
-
     // Function to add pins to the map with initial content
-    function addPinsWithContent(longitude, latitude) {
+    function addPinsWithContent(longitude, latitude, suburb, count) {
       // Provide location to add pin on map
       const location = new Microsoft.Maps.Location(longitude, latitude);
       // Create a pin on the map
 
       const pin = new Microsoft.Maps.Pushpin(location, {
+        title: suburb,
         subTitle: '',
+        text: count,
         color: '#3468C0',
       });
 
       // Add the pin to the map
       map.entities.push(pin);
-      // store furniture counts
-      // suburbs[suburb] = count;
     }
 
     // Add pins to the map with initial content
     // to do display sum of the furnitures in each suburb
     // TODO: when user create new furniture, update the geolocations
-
     const groupedFurnitures = Object.groupBy(
       allFurnitures,
-      ({ location }) => location
+      ({ suburb }) => suburb
     );
-    const allFurnituresList = Object.values(allFurnitures);
 
-    for (let i = 0; i < allFurnituresList.length; i++) {
-      const coordinate = allFurnituresList[i].geolocation.coordinates;
-      addPinsWithContent(coordinate[0], coordinate[1]);
-    }
+    const cityGroup = Object.groupBy(allFurnitures, ({ city }) => city);
+    console.log(cityGroup);
+    const addPushPinBasedOnArray = (array) => {
+      for (let location in array) {
+        const furniture = array[location];
+        const funritureNumber = String(furniture.length);
+        const coordinate = furniture[0].geolocation.coordinates;
+        addPinsWithContent(
+          coordinate[0],
+          coordinate[1],
+          location,
+          funritureNumber
+        );
+      }
+    };
+    addPushPinBasedOnArray(groupedFurnitures);
 
     // Function to update pin content based on zoom level
     function updatePinContentBasedOnZoomLevel(zoomLevel) {
       // Example: Update pin text based on zoom level
       const pinNumber = map.entities.getLength();
-      for (let i = 0; i < pinNumber; i++) {
-        const pin = map.entities.get(i);
-        const suburb = pin.getTitle();
-        if (zoomLevel > 13.1) {
-          pin.setOptions({
-            text: 'TBA', // Update pin text with more detailed information, sort by suburb?
-          });
-        }
+      if (zoomLevel < 11) {
+        map.entities.clear();
+        addPushPinBasedOnArray(cityGroup);
+      } else {
+        map.entities.clear();
+        addPushPinBasedOnArray(groupedFurnitures);
       }
     }
 
@@ -74,7 +79,7 @@
     function handleZoomLevelChange() {
       const currentZoomLevel = map.getZoom(); // Get current zoom level of the map
       // Update pin content based on current zoom level
-      updatePinContentBasedOnZoomLevel(currentZoomLevel, suburbs);
+      updatePinContentBasedOnZoomLevel(currentZoomLevel);
     }
 
     // Event listener for map zoom level change
@@ -99,7 +104,9 @@
       <div class="card-body">
         <h5 class="card-title"><%=furniture.name%></h5>
         <p class="card-text">$<%=furniture.price%></p>
-        <p class="card-text">Location: <%=furniture.location%></p>
+        <p class="card-text">
+          Location: <%=furniture.suburb%>,<%=furniture.city%>
+        </p>
         <a href="/furnitures/<%=furniture._id%>" class="card-link">Details</a>
       </div>
     </div>

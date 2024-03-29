@@ -18,7 +18,8 @@ const furnitureSchema = new Schema({
   },
   price: Number,
   description: String,
-  location: String,
+  suburb: String,
+  city: String,
   geolocation: {
     type: {
       type: String,

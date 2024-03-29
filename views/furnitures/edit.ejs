@@ -26,18 +26,30 @@
         />
         <div class="invalid-feedback">Furniture name is required</div>
       </div>
-
       <div class="mb-3">
-        <label for="fLocation" class="form-label">Furniture Location</label>
+        <label for="fSuburb" class="form-label">Furniture Suburb</label>
         <input
           class="form-control"
-          id="fLocation"
+          id="fSuburb"
           type="text"
-          name="fLocation"
-          value="<%=furniture.location%>"
+          name="fSuburb"
+          value="<%=furniture.suburb%>"
           required
         />
-        <div class="invalid-feedback">Furniture location is required</div>
+        <div class="invalid-feedback">Furniture suburb is required</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="fCity" class="form-label">Furniture City</label>
+        <input
+          class="form-control"
+          id="fCity"
+          type="text"
+          name="fCity"
+          value="<%=furniture.city%>"
+          required
+        />
+        <div class="invalid-feedback">Furniture city is required</div>
       </div>
 
       <div class="mb-3">

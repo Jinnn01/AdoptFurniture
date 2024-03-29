@@ -3,7 +3,8 @@ const ExpressError = require('../services/ErrorHandling');
 
 const furnitureSchema = Joi.object({
   fName: Joi.string().required(),
-  fLocation: Joi.string().required(),
+  fSuburb: Joi.string().required(),
+  fCity: Joi.string().required(),
   fPrice: Joi.number().min(0),
   fDescription: Joi.string().allow(''),
   DeleteImgs: Joi.array(),

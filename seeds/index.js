@@ -37,7 +37,8 @@ const seedDB = async () => {
     const longitude = randObject.longitude;
     const randomFurniture = new Furniture({
       name: furnitureName,
-      location: `${randSuburb}, ${randCity}`,
+      suburb: `${randSuburb}`,
+      city: `${randCity}`,
       geolocation: {
         type: 'Point',
         coordinates: [latitude, longitude],

@@ -19,10 +19,11 @@ module.exports.createFurniture = async (request, response, next) => {
     filename: image.filename,
   }));
   const currentUserID = response.locals.currentUser._id;
-  const { fName, fLocation, fPrice, fDescription } = request.body;
+  const { fName, fSuburb, fCity, fPrice, fDescription } = request.body;
   const newFurniture = new Furniture({
     name: fName,
-    location: fLocation,
+    suburb: fSuburb,
+    city: fCity,
     price: fPrice,
     description: fDescription,
     img: furnitureImg,
@@ -68,7 +69,8 @@ module.exports.updateFurniture = async (request, response) => {
   const id = request.params.id;
   const {
     fName,
-    fLocation,
+    fSuburb,
+    fCity,
     fPrice,
     fDescription,
     DeleteImgs = [],
@@ -79,7 +81,8 @@ module.exports.updateFurniture = async (request, response) => {
   }));
   const editedFurniture = await Furniture.findByIdAndUpdate(id, {
     name: fName,
-    location: fLocation,
+    suburb: fSuburb,
+    city: fCity,
     price: fPrice,
     description: fDescription,
   });
