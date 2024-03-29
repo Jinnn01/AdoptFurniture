@@ -11,6 +11,7 @@
   defer
 ></script>
 <script type="text/javascript">
+  let infobox;
   async function GetMap() {
     const map = new Microsoft.Maps.Map('#myMap', {});
     map.setView({
@@ -19,6 +20,15 @@
       mapTypeId: Microsoft.Maps.MapTypeId.road,
       zoom: 12,
     });
+
+    // set up infobox
+    //Create an infobox at the center of the map but don't show it.
+    infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+      visible: false,
+    });
+
+    //Assign the infobox to a map instance.
+    infobox.setMap(map);
 
     // Function to add pins to the map with initial content
     function addPinsWithContent(longitude, latitude, suburb, count) {
@@ -32,21 +42,18 @@
         text: count,
         color: '#3468C0',
       });
-
+      Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
       // Add the pin to the map
       map.entities.push(pin);
     }
 
     // Add pins to the map with initial content
-    // to do display sum of the furnitures in each suburb
-    // TODO: when user create new furniture, update the geolocations
+    // to do display sum of the furnitures in each suburb/city
     const groupedFurnitures = Object.groupBy(
       allFurnitures,
       ({ suburb }) => suburb
     );
-
     const cityGroup = Object.groupBy(allFurnitures, ({ city }) => city);
-    console.log(cityGroup);
     const addPushPinBasedOnArray = (array) => {
       for (let location in array) {
         const furniture = array[location];
@@ -85,6 +92,34 @@
     // Event listener for map zoom level change
     Microsoft.Maps.Events.addHandler(map, 'viewchange', handleZoomLevelChange);
   }
+  function pushpinClicked(e) {
+    //Make sure the infobox has metadata to display.
+    if (e.target._options) {
+      const suburbName = e.target._options.title;
+      // find the item list
+      const suburbFurnitures = Object.groupBy(
+        allFurnitures,
+        ({ suburb }) => suburb
+      )[suburbName];
+      var description = [];
+      //Check to see if the pushpin is a cluster.
+      if (e.target._options) {
+        //Create a list of all pushpins that are in the cluster.
+        description.push('<div style="max-height:75px;overflow-y:auto;"><ul>');
+        for (var i = 0; i < suburbFurnitures.length; i++) {
+          description.push('<li>', suburbFurnitures[i].name, '</li>');
+        }
+        description.push('</ul></div>');
+      }
+      //Set the infobox options with the metadata of the pushpin.
+      infobox.setOptions({
+        location: e.target.getLocation(),
+        title: e.target._options.title,
+        description: description.join(''),
+        visible: true,
+      });
+    }
+  }
 </script>
 <%for(let furniture of allFurnitures){%>
 <div class="card mb-3">
@@ -105,7 +140,7 @@
         <h5 class="card-title"><%=furniture.name%></h5>
         <p class="card-text">$<%=furniture.price%></p>
         <p class="card-text">
-          Location: <%=furniture.suburb%>,<%=furniture.city%>
+          Location: <%=furniture.suburb%>, <%=furniture.city%>
         </p>
         <a href="/furnitures/<%=furniture._id%>" class="card-link">Details</a>
       </div>
