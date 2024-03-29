@@ -12,6 +12,8 @@
 ></script>
 <script type="text/javascript">
   let infobox;
+  let changeFlag = -1;
+
   async function GetMap() {
     const map = new Microsoft.Maps.Map('#myMap', {});
     map.setView({
@@ -22,6 +24,7 @@
     });
 
     // set up infobox
+
     //Create an infobox at the center of the map but don't show it.
     infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
       visible: false,
@@ -74,9 +77,11 @@
       // Example: Update pin text based on zoom level
       const pinNumber = map.entities.getLength();
       if (zoomLevel < 11) {
+        changeFlag = 1; // 1 means get city
         map.entities.clear();
         addPushPinBasedOnArray(cityGroup);
       } else {
+        changeFlag = -1; // means suburb
         map.entities.clear();
         addPushPinBasedOnArray(groupedFurnitures);
       }
@@ -93,21 +98,29 @@
     Microsoft.Maps.Events.addHandler(map, 'viewchange', handleZoomLevelChange);
   }
   function pushpinClicked(e) {
-    //Make sure the infobox has metadata to display.
     if (e.target._options) {
-      const suburbName = e.target._options.title;
-      // find the item list
-      const suburbFurnitures = Object.groupBy(
-        allFurnitures,
-        ({ suburb }) => suburb
-      )[suburbName];
-      var description = [];
+      const locationName = e.target._options.title;
+      let groupFurnitures;
+      // find the item list, city or suburb
+      if (changeFlag === 1) {
+        groupFurnitures = Object.groupBy(allFurnitures, ({ city }) => city)[
+          locationName
+        ];
+      } else if (changeFlag === -1) {
+        groupFurnitures = Object.groupBy(allFurnitures, ({ suburb }) => suburb)[
+          locationName
+        ];
+      }
+
+      let description = [];
       //Check to see if the pushpin is a cluster.
       if (e.target._options) {
         //Create a list of all pushpins that are in the cluster.
         description.push('<div style="max-height:75px;overflow-y:auto;"><ul>');
-        for (var i = 0; i < suburbFurnitures.length; i++) {
-          description.push('<li>', suburbFurnitures[i].name, '</li>');
+        for (var i = 0; i < groupFurnitures.length; i++) {
+          description.push(
+            `<li><a href="/furnitures/${groupFurnitures[i]._id}">${groupFurnitures[i].name}`
+          );
         }
         description.push('</ul></div>');
       }
@@ -117,10 +130,12 @@
         title: e.target._options.title,
         description: description.join(''),
         visible: true,
+        showPointer: false,
       });
     }
   }
 </script>
+
 <%for(let furniture of allFurnitures){%>
 <div class="card mb-3">
   <div class="row g-0">
