@@ -16,15 +16,28 @@
       href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
   </head>
 
   <body
     class="d-flex flex-column vh-100"
-    style="font-family: 'Merriweather', serif"
+    style="
+      font-family: 'Merriweather', serif;
+      color: #333;
+      background-color: #f1f4f0;
+    "
   >
-    <%- include('../partials/navbar')%>
-    <main class="container mt-5 mb-5">
+    <%- include('../partials/navbar2')%>
+    <main
+      class="container mt-5 mb-5"
+      style="
+        max-width: 80vw;
+        background: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      "
+    >
       <%- include('../partials/flash')%> <%-body%>
     </main>
     <%- include('../partials/footer')%>
