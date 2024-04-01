@@ -1,35 +1,92 @@
-<nav
-  class="navbar navbar-expand-lg navbar-dark"
-  style="background-color: #747264"
->
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Adopt Furniture</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNavAltMarkup"
-      aria-controls="navbarNavAltMarkup"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link" href="/">Home</a>
-        <a class="nav-link" href="/furnitures">Furnitures</a>
-        <a class="nav-link" href="/furnitures/newFurniture">New Furniture</a>
-      </div>
-    </div>
+<style>
+        .link-button {
+        background: none;
+        color: #e47d33;
+        border: 2px solid;
+        border-radius: 5px;
+        padding: 0.5em 1em;
+        font-size: medium;
+        transition: color 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+      }
+      .link-button a{
+        color:#595955
+      }
 
-    <div class="navbar-nav ml-auto">
+      .link-button:hover {
+        border-color: #649a47;
+        box-shadow: 0 0.5em 0.5em -0.4em gray;
+        transform: translateY(-0.25em);
+        cursor: pointer;
+      }
+      .link-button:hover a{
+        color:#e47d33;
+      }
+      #navbarSupportedContent {
+        font-size: large;
+      }
+      #navbarSupportedContent a {
+        text-decoration: none;
+      }
+
+</style>
+<nav
+class="navbar navbar-expand-lg pt-0"
+>
+<div class="container-fluid pb-2 pt-2" style="background-color: #fefef3;min-height: 100px;">
+  <div class="logo">
+    <a
+      class="navbar-brand"
+      href="#"
+      style="display: flex; align-items: center"
+    >
+      <img
+        src="pics/adoptfurnitureIcon.webp"
+        alt="adoptfurnitureIcon"
+        style="width: 80px"
+      />
+      <div>
+        <b><i>Adopt Furniture</i></b>
+      </div>
+    </a>
+  </div>
+  <button
+  class="navbar-toggler"
+  type="button"
+  data-bs-toggle="collapse"
+  data-bs-target="#navbarSupportedContent"
+  aria-controls="navbarSupportedContent"
+  aria-expanded="false"
+  aria-label="Toggle navigation"
+>
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="navbar-nav me-auto mb-1 mb-lg-0" style="margin-left: 15px">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/furnitures">Find Furniture</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/furnitures/newFurniture"
+        >Share Furniture</a
+      >
+      </li>
+    </div>
+    <div style="margin-left: 15px">
       <% if(currentUser){%>
-      <a class="nav-link" href="/logout">Logout</a>
+      <button type="button" class="link-button" >
+        <a href="/logout" >Logout</a>
+      </button>
       <%}else{%>
-      <a class="nav-link" href="/login">Login/SignUp</a>
+      <button type="button" class="link-button">
+        <a href="/login">Login/SignUp</a>
+      </button>
       <%}%>
-      <!-- <a class="nav-link" href="/signup">SignUp</a> -->
     </div>
   </div>
+  </div>
+</div>
 </nav>
