@@ -15,6 +15,7 @@ const userRouter = require('./routes/users');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
+const favicon = require('serve-favicon');
 // TODO: 1. limit user's maxmiunm upload pics
 // img's size
 mongoose
@@ -31,6 +32,9 @@ const app = express();
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+// set up favicon: not working
+app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
 
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
