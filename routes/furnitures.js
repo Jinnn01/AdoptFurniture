@@ -11,6 +11,7 @@ const { storage } = require('../cloudinary/index');
 const upload = multer({ storage });
 
 router.get('/', furnitureController.index);
+router.get('/about', furnitureController.aboutUs);
 // display create furniture form
 router.get('/newFurniture', isLoggedIn, furnitureController.newForm);
 

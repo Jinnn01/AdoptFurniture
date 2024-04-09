@@ -10,189 +10,115 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="/stylesheets/home.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap"
       rel="stylesheet"
     />
-    <style>
-      body {
-        font-family: 'Merriweather', serif;
-        color: #333;
-        background-color: #f1f4f0;
-      }
-
-      .link-button {
-        background: none;
-        color: #e47d33;
-        border: 2px solid;
-        border-radius: 5px;
-        padding: 0.5em 1em;
-        font-size: medium;
-        transition: color 0.25s, border-color 0.25s, box-shadow 0.25s,
-          transform 0.25s;
-      }
-      .link-button a {
-        color: #595955;
-      }
-
-      .link-button:hover {
-        border-color: #649a47;
-        box-shadow: 0 0.5em 0.5em -0.4em gray;
-        transform: translateY(-0.25em);
-        cursor: pointer;
-      }
-      .link-button:hover a {
-        color: #e47d33;
-      }
-
-      .content {
-        max-width: 800px;
-        background: #fff;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      h1,
-      h2 {
-        color: #649a47;
-        font-style: italic;
-      }
-      p {
-        line-height: 1.6;
-      }
-      .welcome-message {
-        margin-bottom: 20px;
-      }
-      #navbarSupportedContent {
-        font-size: large;
-      }
-      #navbarSupportedContent a {
-        text-decoration: none;
-      }
-    </style>
   </head>
 
-  <body class="d-flex flex-column vh-100">
-    <nav class="navbar navbar-expand-lg pt-0">
-      <div
-        class="container-fluid"
-        style="background-color: #fefef3; min-height: 100px"
-      >
-        <div class="logo">
-          <a
-            class="navbar-brand"
-            href="#"
-            style="display: flex; align-items: center"
+  <body class="d-flex flex-column">
+    <div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
+      <header>
+        <nav class="navbar navbar-expand-lg pt-0">
+          <div
+            class="container-fluid"
+            style="background-color: #fefef3; min-height: 100px; opacity: 70%"
           >
-            <img
-              src="pics/adoptfurnitureIcon.webp"
-              alt="adoptfurnitureIcon"
-              style="width: 80px"
-            />
-            <div>
-              <b><i>Adopt Furniture</i></b>
-            </div>
-          </a>
-        </div>
-
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="margin-left: 15px">
-            <li class="nav-item">
-              <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/furnitures">Find Furniture</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/furnitures/newFurniture"
-                >Share Furniture</a
+            <div class="logo">
+              <a
+                class="navbar-brand"
+                href="#"
+                style="display: flex; align-items: center"
               >
-            </li>
-          </ul>
-          <div>
-            <% if(currentUser){%>
-            <button type="button" class="link-button">
-              <a href="/logout">Logout</a>
+                <img
+                  src="pics/adoptfurnitureIcon.webp"
+                  alt="adoptfurnitureIcon"
+                  style="width: 80px"
+                />
+                <div>
+                  <b><i>Adopt Furniture</i></b>
+                </div>
+              </a>
+            </div>
+
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
             </button>
-            <%}else{%>
-            <button type="button" class="link-button">
-              <a href="/login">Login/SignUp</a>
-            </button>
-            <%}%>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul
+                class="navbar-nav me-auto mb-2 mb-lg-0"
+                style="margin-left: 15px"
+              >
+                <li class="nav-item">
+                  <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/furnitures">Find Furniture</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/furnitures/newFurniture"
+                    >Share Furniture</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/furnitures/about">About Us</a>
+                </li>
+              </ul>
+              <div>
+                <% if(currentUser){%>
+                <button type="button" class="link-button">
+                  <a href="/logout">Logout</a>
+                </button>
+                <%}else{%>
+                <button type="button" class="link-button">
+                  <a href="/login">Login/SignUp</a>
+                </button>
+                <%}%>
+              </div>
+            </div>
           </div>
-        </div>
+        </nav>
+      </header>
+
+      <div class="content container mt-5 mb-5 px-5">
+        <h1>Adopt Furniture!</h1>
+        <p class="welcome-message">
+          <strong>Turning Houses into Homes, One Piece at a Time.</strong>
+        </p>
+
+        <p>
+          At <span class="highlight">Adopt Furniture</span>, we believe every
+          piece of furniture has a story. From the cozy armchair in the reading
+          nook to the dining table that's seen countless family dinners, each
+          item holds memories and moments. Yet, when it's time to let go, these
+          pieces can still bring joy and comfort to another home.
+        </p>
+
+        <a
+          class="btn btn-lg font-weight-bold text-white"
+          style="background-color: #b26b38"
+          href="/furnitures"
+          >View All Furniture</a
+        >
       </div>
-    </nav>
-
-    <div class="content container mt-5 mb-5 pt-5">
-      <h1>Welcome to Adopt Furniture!</h1>
-      <p class="welcome-message">
-        <strong>Turning Houses into Homes, One Piece at a Time.</strong>
-      </p>
-
-      <p>
-        At <span class="highlight">Adopt Furniture</span>, we believe every
-        piece of furniture has a story. From the cozy armchair in the reading
-        nook to the dining table that's seen countless family dinners, each item
-        holds memories and moments. Yet, when it's time to let go, these pieces
-        can still bring joy and comfort to another home.
-      </p>
-
-      <h2>Share Your Story. Find a Treasure.</h2>
-      <ul>
-        <li>
-          <strong>Share:</strong> Do you have furniture that's looking for a new
-          beginning? Post it on our platform. Your cherished item could be
-          exactly what someone else needs to complete their home.
-        </li>
-        <li>
-          <strong>Adopt:</strong> Looking for that perfect piece to add to your
-          space? Browse through listings near you. From vintage finds to nearly
-          new items, your next treasure awaits.
-        </li>
-      </ul>
-
-      <h2>Sustainability at Heart</h2>
-      <p>
-        We're more than just a platform; we're a community committed to reducing
-        waste and promoting sustainability. By adopting furniture, you're making
-        an eco-friendly choice that benefits our planet.
-      </p>
-
-      <h2>Connect and Contribute</h2>
-      <p>
-        Join our growing community where members connect over shared interests
-        in sustainable living and interior decorating. By participating in Adopt
-        Furniture, you're not just furnishing your home—you're helping to
-        furnish the world with kindness and care.
-      </p>
-
-      <p><strong>Start Your Journey Today</strong></p>
-      <p>
-        Explore listings, share your own, and discover the joy of giving
-        furniture a second chance at life. Welcome to a world where every piece
-        of furniture finds its forever home.
-      </p>
-
-      <p>
-        Welcome home,<br />
-        The Adopt Furniture Team
-      </p>
+      <footer
+        class="pt-3 mt-auto text-center"
+        style="background-color: rgba(13, 21, 2, 0.5)"
+      >
+        <p style="color: rgba(228, 226, 226, 0.8)">&copy;AdoptFurniture2024</p>
+      </footer>
     </div>
   </body>
 

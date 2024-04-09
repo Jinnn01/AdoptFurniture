@@ -3,6 +3,10 @@ const User = require('../models/user');
 const Comment = require('../models/comment');
 const { cloudinary } = require('../cloudinary/index');
 
+module.exports.aboutUs = async (request, response) => {
+  response.render('about');
+};
+
 module.exports.index = async (request, response) => {
   const allFurnitures = await Furniture.find({});
   response.render('furnitures', { allFurnitures });
