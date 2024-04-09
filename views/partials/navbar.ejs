@@ -23,11 +23,13 @@
       }
       #navbarSupportedContent {
         font-size: large;
+        transition: border 0.2s
       }
       #navbarSupportedContent a {
         text-decoration: none;
       }
 
+      
 </style>
 <nav
 class="navbar navbar-expand-lg pt-0"
@@ -40,7 +42,7 @@ class="navbar navbar-expand-lg pt-0"
       style="display: flex; align-items: center"
     >
       <img
-        src="pics/adoptfurnitureIcon.webp"
+        src="/pics/adoptfurnitureIcon.webp"
         alt="adoptfurnitureIcon"
         style="width: 80px"
       />
@@ -62,7 +64,7 @@ class="navbar navbar-expand-lg pt-0"
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <div class="navbar-nav me-auto mb-1 mb-lg-0" style="margin-left: 15px">
+    <ul class="navbar-nav me-auto mb-1 mb-lg-0" style="margin-left: 15px">
       <li class="nav-item">
         <a class="nav-link" href="/">Home</a>
       </li>
@@ -74,7 +76,7 @@ class="navbar navbar-expand-lg pt-0"
         >Share Furniture</a
       >
       </li>
-    </div>
+    </ul>
     <div style="margin-left: 15px">
       <% if(currentUser){%>
       <button type="button" class="link-button" >
