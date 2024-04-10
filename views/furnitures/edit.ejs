@@ -1,116 +1,121 @@
 <% layout('/layouts/boilerplate') %>
-
-<div class="row">
-  <div class="text-center">
-    <h1>Edit Furniture</h1>
-    <small>No.<%=furniture._id%></small>
-  </div>
-
-  <div class="col-6 offset-3">
-    <form
-      action="/furnitures/<%=furniture._id%>?_method=PATCH"
-      method="post"
-      class="needs-validation"
-      enctype="multipart/form-data"
-      novalidate
-    >
-      <div class="mb-3">
-        <label for="fName" class="form-label">Furniture Name</label>
-        <input
-          class="form-control"
-          id="fName"
-          type="text"
-          name="fName"
-          value="<%=furniture.name%>"
-          required
-        />
-        <div class="invalid-feedback">Furniture name is required</div>
-      </div>
-      <div class="mb-3">
-        <label for="fSuburb" class="form-label">Furniture Suburb</label>
-        <input
-          class="form-control"
-          id="fSuburb"
-          type="text"
-          name="fSuburb"
-          value="<%=furniture.suburb%>"
-          required
-        />
-        <div class="invalid-feedback">Furniture suburb is required</div>
-      </div>
-
-      <div class="mb-3">
-        <label for="fCity" class="form-label">Furniture City</label>
-        <input
-          class="form-control"
-          id="fCity"
-          type="text"
-          name="fCity"
-          value="<%=furniture.city%>"
-          required
-        />
-        <div class="invalid-feedback">Furniture city is required</div>
-      </div>
-
-      <div class="mb-3">
-        <label for="fPrice" class="form-lablel">Furniture Price</label>
-        <div class="input-group">
-          <span class="input-group-text">$</span>
+<link rel="stylesheet" href="/stylesheets/form.css"/>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <h4 class="text-center mb-4" style="color: #333">Update Furniture</h4>
+      <form
+        action="/furnitures/<%=furniture._id%>?_method=PATCH"
+        method="post"
+        class="needs-validation"
+        enctype="multipart/form-data"
+        novalidate
+      >
+        <div class="mb-3">
+          <label for="fName" class="form-label">Furniture Name</label>
           <input
-            id="fPrice"
-            type="float"
-            name="fPrice"
-            min="0"
             class="form-control"
-            value="<%=furniture.price%>"
+            id="fName"
+            type="text"
+            name="fName"
+            value="<%=furniture.name%>"
+            required
+          />
+          <div class="invalid-feedback">Furniture name is required</div>
+        </div>
+        <div class="mb-3">
+          <label for="fSuburb" class="form-label">Furniture Suburb</label>
+          <input
+            class="form-control"
+            id="fSuburb"
+            type="text"
+            name="fSuburb"
+            value="<%=furniture.suburb%>"
+            required
+            
+          />
+          <div class="invalid-feedback">Furniture suburb is required</div>
+        </div>
+  
+        <div class="mb-3">
+          <label for="fCity" class="form-label">Furniture City</label>
+          <input
+            class="form-control"
+            id="fCity"
+            type="text"
+            name="fCity"
+            value="<%=furniture.city%>"
+            required
+            
+          />
+          <div class="invalid-feedback">Furniture city is required</div>
+        </div>
+  
+        <div class="mb-3">
+          <label for="fPrice" class="form-lablel">Furniture Price</label>
+          <div class="input-group">
+            <span class="input-group-text">$</span>
+            <input
+              id="fPrice"
+              type="float"
+              name="fPrice"
+              min="0"
+              class="form-control"
+              value="<%=furniture.price%>"
+              
+            />
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <label for="fDescription" class="form-lablel"
+            >Furniture Description</label
+          >
+          <textarea
+            id="fDescription"
+            type="text"
+            name="fDescription"
+            class="form-control mb-3"
+            style="border-color: #aece9b;box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px"
+          >
+          <%=furniture.description%></textarea
+          >
+        </div>
+        <!--TODO: More user friendly interface-->
+        <div class="mb-3">
+          <label for="fImage" class="form-lablel">Add More Furniture Photo</label>
+          <input
+            id="fImage"
+            type="file"
+            name="fImage"
+            class="form-control"
+            placeholder="Image"
+            multiple
+            
           />
         </div>
+        <label class="form-lablel">Select pic to delete</label>
+        <div class="row row-cols-1 row-cols-md-4 g-4 mb-3">
+          
+          <% for(let i = 0; i<furniture.img.length;i++){%>
+            <div class="col">
+              <div class="card">
+            <img class="card-img" src="<%=furniture.img[i].url%>" />
+            <div class="card-img-overlay text-end pt-1 pe-2">
+              <label class="visually-hidden" for="image-<%=i%>">Delete Img</label>
+              <input class="form-check-input" type="checkbox"id="image-<%=i%>" name="DeleteImgs[]" value="<%=furniture.img[i].filename %>">
+            </div>
+            </div>
+            </div>
+          <%}%>
+        </div>
+        <div class="d-grid">
+          <button class="btn" style="background-color: #b26b38;color: white;">
+            Edit furniture
+          </button>
+        </div>
+      </form>
+      <div class="text-center mt-3" style="color: #777">
+        <a href="/furnitures" style="color: #007bff">View All Furnitures</a>
       </div>
-
-      <div class="mb-3">
-        <label for="fDescription" class="form-lablel"
-          >Furniture Description</label
-        >
-        <textarea
-          id="fDescription"
-          type="text"
-          name="fDescription"
-          class="form-control mb-3"
-        >
-        <%=furniture.description%></textarea
-        >
-      </div>
-      <!--TODO: More user friendly interface-->
-      <div class="mb-3">
-        <label for="fImage" class="form-lablel">Add More Furniture Photo</label>
-        <input
-          id="fImage"
-          type="file"
-          name="fImage"
-          class="form-control"
-          placeholder="Image"
-          multiple
-        />
-      </div>
-      <div class="row row-cols-1 row-cols-md-4 g-4 mb-3">
-        <% for(let i = 0; i<furniture.img.length;i++){%>
-          <div class="col">
-            <div class="card">
-          <img class="card-img" src="<%=furniture.img[i].url%>" />
-          <div class="card-img-overlay text-end pt-1 pe-2">
-            <label class="visually-hidden" for="image-<%=i%>">Delete Img</label>
-            <input class="form-check-input" type="checkbox"id="image-<%=i%>" name="DeleteImgs[]" value="<%=furniture.img[i].filename %>">
-          </div>
-          </div>
-          </div>
-        <%}%>
-      </div>
-      <div class="mb-3">
-        <button class="btn btn-secondary" style="background-color: #747264">
-          Edit furniture
-        </button>
-      </div>
-    </form>
-    <a href="/furnitures">To view all furnitures</a>
   </div>
 </div>

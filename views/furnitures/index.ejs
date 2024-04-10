@@ -1,6 +1,5 @@
 <% layout('/layouts/boilerplate') %>
-<h1>All Furnitures</h1>
-<div id="myMap" class="container-fluid" style="height: 60dvh"></div>
+<link rel="stylesheet" href="/stylesheets/index.css" />
 
 <script>
   const allFurnitures = <%- JSON.stringify(allFurnitures) %>;
@@ -136,19 +135,44 @@
   }
 </script>
 
+<script>
+  const mapContainer = document.querySelector('.map-container');
+  const map = document.getElementById('myMap');
+
+  map.addEventListener('mouseenter', function () {
+    mapContainer.classList.add('active');
+  });
+
+  map.addEventListener('mouseleave', function () {
+    mapContainer.classList.remove('active');
+  });
+</script>
+
+<h1 class="text-center mb-4">All Furnitures</h1>
+<div class="map-container mb-4">
+  <div id="myMap"></div>
+  <div class="map-overlay">
+    <h2 class="map-title">Explore Furnitures Near You</h2>
+  </div>
+</div>
+
 <%for(let furniture of allFurnitures){%>
 <div class="card mb-3">
   <div class="row g-0">
     <div class="col-md-3">
-      <% if (furniture.img.length >=1){%>
-      <img
-        src="<%=furniture.img[0].url%>"
-        class="img-fluid"
-        alt="furniture image"
-      />
-      <%}else{%>
-      <p style="text-align: center"><b>Poster hasn't shared any pictures</b></p>
-      <%}%>
+      <div class="card-img-container">
+        <% if (furniture.img.length >=1){%>
+        <img
+          src="<%=furniture.img[0].url%>"
+          class="img-fluid"
+          alt="furniture image"
+        />
+        <%}else{%>
+        <p style="text-align: center">
+          <b>Poster hasn't shared any pictures</b>
+        </p>
+        <%}%>
+      </div>
     </div>
     <div class="col-md-8">
       <div class="card-body">

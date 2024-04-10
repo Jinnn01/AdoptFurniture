@@ -1,7 +1,8 @@
 <% layout('/layouts/boilerplate') %>
-<div class="row">
-  <h1 class="text-center">Add Furniture</h1>
-  <div class="col-6 offset-3">
+<link rel="stylesheet" href="/stylesheets/form.css" />
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <h4 class="text-center mb-4" style="color: #333">Add Furniture</h4>
     <form
       action="/furnitures/add"
       method="post"
@@ -10,16 +11,16 @@
       enctype="multipart/form-data"
     >
       <div class="mb-3">
-        <label for="fName" class="form-lablel">Furniture Name</label>
+        <label for="fName" class="form-label">Furniture Name</label>
         <input
           id="fName"
           type="text"
           name="fName"
           class="form-control"
-          placeholder="Please enter furniture name"
+          placeholder="Enter furniture name"
           required
         />
-        <div class="invalid-feedback">*Furniture name is required</div>
+        <div class="invalid-feedback">Furniture name is required</div>
       </div>
       <div class="mb-3">
         <label for="fSuburb" class="form-label">Furniture Suburb</label>
@@ -28,12 +29,11 @@
           id="fSuburb"
           type="text"
           name="fSuburb"
-          placeholder="Please enter furniture suburb"
+          placeholder="Enter furniture suburb"
           required
         />
         <div class="invalid-feedback">Furniture suburb is required</div>
       </div>
-
       <div class="mb-3">
         <label for="fCity" class="form-label">Furniture City</label>
         <input
@@ -41,14 +41,13 @@
           id="fCity"
           type="text"
           name="fCity"
-          placeholder="Please enter furniture city"
+          placeholder="Enter furniture city"
           required
         />
         <div class="invalid-feedback">Furniture city is required</div>
       </div>
-
       <div class="mb-3">
-        <label for="fPrice" class="form-lablel">Furniture Price</label>
+        <label for="fPrice" class="form-label">Furniture Price</label>
         <div class="input-group">
           <span class="input-group-text">$</span>
           <input
@@ -60,12 +59,11 @@
             value="0"
             required
           />
-          <div class="invalid-feedback">*Please enter a valid price</div>
+          <div class="invalid-feedback">Please enter a valid price</div>
         </div>
       </div>
-
       <div class="mb-3">
-        <label for="fDescription" class="form-lablel"
+        <label for="fDescription" class="form-label"
           >Furniture Description</label
         >
         <textarea
@@ -73,12 +71,15 @@
           type="text"
           name="fDescription"
           class="form-control"
-          placeholder="Describle this furniture"
+          placeholder="Describe this furniture"
+          style="
+            border-color: #aece9b;
+            box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+          "
         ></textarea>
       </div>
-
       <div class="mb-3">
-        <label for="fImage" class="form-lablel">Furniture Photo</label>
+        <label for="fImage" class="form-label">Furniture Photo</label>
         <input
           id="fImage"
           type="file"
@@ -88,13 +89,18 @@
           multiple
         />
       </div>
-
-      <div class="mb-3">
-        <button class="btn btn-secondary" style="background-color: #747264">
-          Add furniture
+      <div class="d-grid">
+        <button
+          class="btn"
+          type="submit"
+          style="background-color: #b26b38; color: white"
+        >
+          Add Furniture
         </button>
       </div>
     </form>
-    <a href="/furnitures">To view all furnitures</a>
+    <div class="text-center mt-3" style="color: #777">
+      <a href="/furnitures" style="color: #007bff">View All Furnitures</a>
+    </div>
   </div>
 </div>

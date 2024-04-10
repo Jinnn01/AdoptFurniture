@@ -1,56 +1,83 @@
 <% layout('/layouts/boilerplate') %>
-<div class="row">
-  <h1 class="text-center">Sign Up</h1>
-  <div class="col-6 offset-3">
-    
-    <form
-      action="/signup"
-      method="post"
-      class="needs-validation"
-      novalidate
-    >
-      <div class="mb-3">
-        <label for="username" class="form-lablel">Username</label>
-        <input
-          id="username"
-          type="text"
-          name="username"
-          class="form-control"
-          placeholder="Please enter username"
-          required
-        />
-        <div class="invalid-feedback">*Username is required</div>
+<div class="container">
+  <div class="row justify-content-center mt-mb-2">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="text-center mb-4">
+            <img
+              src="/pics/adoptfurnitureIcon.webp"
+              alt="AdoptFurnitureLogo"
+              class="img-fluid rounded-circle mb-3"
+              style="
+                width: 150px;
+                border: 4px solid #fff;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+              "
+            />
+            <h4 class="card-title" style="color: #333">Sign Up</h4>
+          </div>
+          <form
+            action="/signup"
+            method="post"
+            class="needs-validation"
+            novalidate
+          >
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input
+                id="username"
+                type="text"
+                name="username"
+                class="form-control"
+                placeholder="Enter username"
+                required
+                style="border-color: #f1c98e"
+              />
+              <div class="invalid-feedback">Username is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                class="form-control"
+                placeholder="Enter email"
+                required
+                style="border-color: #f1c98e"
+              />
+              <div class="invalid-feedback">Email is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                id="password"
+                type="password"
+                name="password"
+                class="form-control"
+                placeholder="Enter password"
+                required
+                style="border-color: #f1c98e"
+              />
+              <div class="invalid-feedback">Password is required</div>
+            </div>
+            <div class="d-grid">
+              <button
+                class="btn"
+                type="submit"
+                style="background-color: #b26b38; color: white"
+              >
+                Sign Up
+              </button>
+            </div>
+          </form>
+          <div class="text-center mt-3" style="color: #777">
+            Already have an account?
+            <a href="/login" style="color: #007bff">Login</a>
+          </div>
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="email" class="form-lablel">Email</label>
-        <input
-          id="email"
-          type="email"
-          name="email"
-          class="form-control"
-          placeholder="Please enter email"
-          required
-        />
-        <div class="invalid-feedback">*Password is required</div>
-      <div class="mb-3">
-        <label for="password" class="form-lablel">Password</label>
-        <input
-          id="password"
-          type="password"
-          name="password"
-          class="form-control"
-          placeholder="Please enter password"
-          required
-        />
-        <div class="invalid-feedback">*Email is required</div>
-      </div>
-      <div class="mb-3">
-        <button class="btn btn-secondary" style="background-color: #747264">
-          Sign Up
-        </button>
-      </div>
-    </form>
-    <a  href="/login">Login</a>
-
-</div>
+    </div>
+  </div>
 </div>

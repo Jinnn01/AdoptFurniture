@@ -1,4 +1,5 @@
 <% layout('/layouts/boilerplate') %>
+
 <div class="container d-flex justify-content-between">
   <div class="card col mx-3" style="width: 80vw">
     <!-- TODO:resize the img size -->
@@ -107,35 +108,35 @@
   </div>
   <div class="col mx-3">
     <h1 class="text-center">Make a Comment</h1>
-  <div>
-    <form
-      action="/furnitures/<%=furniture.id%>/comment"
-      method="post"
-      class="needs-validation"
-      novalidate
-    >
-      <div class="mb-3">
-        <label for="comment" class="form-lablel">Comment Content</label>
-        <textarea
-          id="comment"
-          type="text"
-          name="comment"
-          class="form-control"
-          required
-        />
-      
-      </textarea>
-        <div class="invalid-feedback">*Comment Content is required</div>
-      </div>
+    <div>
+      <form
+        action="/furnitures/<%=furniture.id%>/comment"
+        method="post"
+        class="needs-validation"
+        novalidate
+      >
+        <div class="mb-3">
+          <label for="comment" class="form-lablel">Comment Content</label>
+          <textarea
+            id="comment"
+            type="text"
+            name="comment"
+            class="form-control"
+            required
+          />
+        
+        </textarea>
+          <div class="invalid-feedback">*Comment Content is required</div>
+        </div>
 
-      <div class="mb-3">
-        <button class="btn btn-secondary" style="background-color: #747264">
-          Add Comment
-        </button>
-      </div>
-    </form>
+        <div class="mb-3">
+          <button class="btn btn-secondary" style="background-color: #747264">
+            Add Comment
+          </button>
+        </div>
+      </form>
     
-  </div>
+    </div>
     <ol class="list-group mb-3" style="width: 100%; margin-top: 20px">
       <%if(comments.length){%> <%for(let comment of
       comments){%>
