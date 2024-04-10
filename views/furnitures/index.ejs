@@ -1,6 +1,11 @@
 <% layout('/layouts/boilerplate') %>
 <link rel="stylesheet" href="/stylesheets/index.css" />
 
+<h1 class="text-center mb-4">All Furnitures</h1>
+<div class="map-container mb-4">
+  <div id="myMap"></div>
+</div>
+
 <script>
   const allFurnitures = <%- JSON.stringify(allFurnitures) %>;
 </script>
@@ -134,27 +139,6 @@
     }
   }
 </script>
-
-<script>
-  const mapContainer = document.querySelector('.map-container');
-  const map = document.getElementById('myMap');
-
-  map.addEventListener('mouseenter', function () {
-    mapContainer.classList.add('active');
-  });
-
-  map.addEventListener('mouseleave', function () {
-    mapContainer.classList.remove('active');
-  });
-</script>
-
-<h1 class="text-center mb-4">All Furnitures</h1>
-<div class="map-container mb-4">
-  <div id="myMap"></div>
-  <div class="map-overlay">
-    <h2 class="map-title">Explore Furnitures Near You</h2>
-  </div>
-</div>
 
 <%for(let furniture of allFurnitures){%>
 <div class="card mb-3">
